@@ -220,7 +220,3 @@ footer {
     font-weight: 500;
 }
 
-/* Scrollbar estética */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #cbd5e0; border-radius: 3px; }
