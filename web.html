@@ -61,7 +61,19 @@
 
         <main>
             <div class="property-card">
-                <div class="card-image">Foto</div>
+    <div class="marco-fotos">
+        
+        <div class="galeria">
+            <img src="./images/piso1.png" alt="Foto 1">
+            <img src="./images/piso1.2.png" alt="Foto 2">
+        </div>
+        <!-- Botón para mover a la izquierda -->
+        <button class="btn-nav btn-izq" onclick="this.nextElementSibling.scrollBy(-300, 0)">
+            ❮
+        </button>
+        <button class="btn-derecha" onclick="this.previousElementSibling.scrollBy(300, 0)"> ➜ </button>
+        <!-- Botón para mover a la derecha -->
+    </div>
                 <div class="card-info">
                     <div class="price">850€</div>
                     <div class="location">Centro, C/ Mayor</div>
@@ -70,7 +82,10 @@
             </div>
 
             <div class="property-card">
-                <div class="card-image">Foto</div>
+                <div class="card-image">Foto
+                    <img src="./images/piso2.png" alt="Propiedad 2">
+                    <img src="./images/piso2.1.png" alt="Propiedad 2.1">
+                </div>
                 <div class="card-info">
                     <div class="price">1.200€</div>
                     <div class="location">Ático con terraza</div>
@@ -78,7 +93,10 @@
                 </div>
             </div>
             <div class="property-card">
-                <div class="card-image">Foto</div>
+                <div class="card-image">Foto
+                    <img src="./images/piso3.png" alt="Propiedad 3">
+                    <img src="./images/piso3.1.png" alt="Propiedad 3.1">
+                </div>
                 <div class="card-info">
                     <div class="price">700€</div>
                     <div class="location">Estudio Norte</div>
@@ -88,7 +106,10 @@
 
 
             <div class="property-card">
-                <div class="card-image">Foto</div>
+                <div class="card-image">Foto
+                    <img src="./images/piso4.png" alt="Propiedad 4">
+                    <img src="./images/piso4.1.png" alt="Propiedad 4.1">
+                </div>
                 <div class="card-info">
                     <div class="price">950€</div>
                     <div class="location">Casco Antiguo</div>
@@ -98,7 +119,10 @@
 
 
             <div class="property-card">
-                <div class="card-image">Foto</div>
+                <div class="card-image">Foto
+                    <img src="./images/piso5.png" alt="Propiedad 5">
+                    <img src="./images/piso5.1.png" alt="Propiedad 5.1">
+                </div>
                 <div class="card-info">
                     <div class="price">1.500€</div>
                     <div class="location">Adosado Jardín</div>
@@ -108,7 +132,10 @@
 
 
             <div class="property-card">
-                <div class="card-image">Foto</div>
+                <div class="card-image">Foto
+                    <img src="./images/piso6ç.png" alt="Propiedad 6">
+                    <img src="./images/piso6.1.png" alt="Propiedad 6.1">
+                </div>
                 <div class="card-info">
                     <div class="price">600€</div>
                     <div class="location">Loft Industrial</div>
@@ -118,7 +145,11 @@
 
 
             <div class="property-card">
-                <div class="card-image">Foto</div>
+                <div class="card-image">
+                    <img src="./images/piso7.png" alt="Propiedad 7">
+                    <img src="./images/piso7.1.png" alt="Propiedad 7.1">
+                    <img src="./images/piso7.2.png" alt="Propiedad 7.2">
+                </div>
                 <div class="card-info">
                     <div class="price">1.100€</div>
                     <div class="location">Piso familiar</div>
@@ -128,7 +159,11 @@
 
 
             <div class="property-card">
-                <div class="card-image">Foto</div>
+                <div class="card-image">Foto
+                    <img src="./images/piso8.png" alt="Propiedad 8">
+                    <img src="./images/piso8.1.png" alt="Propiedad 8.1">
+                    <img src="./images/piso8.2.png" alt="Propiedad 8.2">
+                </div>
                 <div class="card-info">
                     <div class="price">890€</div>
                     <div class="location">Cerca Universid.</div>
@@ -138,15 +173,16 @@
 
 
              <div class="property-card">
-                <div class="card-image">Foto</div>
+                <div class="card-image">Foto
+                    <img src="./images/piso9.png" alt="Propiedad 9">
+                    <img src="./images/piso9.1.png" alt="Propiedad 9.1">
+                </div>
                 <div class="card-info">
                     <div class="price">2.000€</div>
                     <div class="location">Villa de Lujo</div>
                     <div class="features"><span>5 Hab</span><span>Piscina</span></div>
                 </div>
             </div>
-
-
         </main>
 
 
@@ -154,7 +190,26 @@
             Footer Inmobiliaria
         </footer>
     </div>
+    <script>
+    function moverSlide(boton) {
+        // 1. Buscamos el contenedor de fotos que está al lado del botón
+        const slider = boton.nextElementSibling;
+        
+        // 2. Calculamos cuánto mide una foto de ancho
+        const anchoFoto = slider.offsetWidth;
+        
+        // 3. Movemos el scroll hacia la derecha
+        slider.scrollBy({
+            left: anchoFoto, 
+            behavior: 'smooth' // Movimiento suave
+        });
 
-
+        // Opcional: Si llega al final, volver al principio (reset)
+        // Si la posición actual + ancho >= ancho total, volvemos a 0
+        if (slider.scrollLeft + slider.offsetWidth >= slider.scrollWidth - 10) {
+             slider.scrollTo({ left: 0, behavior: 'smooth' });
+        }
+    }
+</script>
 </body>
 </html>
