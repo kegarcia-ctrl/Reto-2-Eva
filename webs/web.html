@@ -36,9 +36,9 @@
         <div class="dropdown">
             <div class="circle-btn dropdown-btn">Cuenta</div>
             <div class="dropdown-content small-menu">
-                <a href="#">Iniciar Sesión</a>
-                <a href="#">Crear Cuenta</a>
-                <a href="#">Cerrar Sesión</a>
+                <a href="#login">Iniciar Sesión</a>
+                <a href="#registro">Crear Cuenta</a>
+                <a href="#cerrar sesion">Cerrar Sesión</a>
             </div>
         </div>
     </div>
@@ -289,5 +289,44 @@
     }
     <!-- panel secundario---->
 </script>
+<!-- MODAL LOGIN -->
+<div id="login" class="modal-fondo">
+  <div class="modal">
+    <a href="#" class="cerrar">✕</a>
+
+    <h2>Iniciar sesión</h2>
+
+    <input type="email" placeholder="Correo">
+    <input type="password" placeholder="Contraseña">
+
+    <button>Entrar</button>
+
+    <p>
+      ¿No tienes cuenta?
+      <a href="#registro">Crear cuenta</a>
+    </p>
+  </div>
+</div>
+
+<!-- MODAL REGISTRO -->
+<div id="registro" class="modal-fondo">
+  <div class="modal">
+    <a href="#" class="cerrar">✕</a>
+
+    <h2>Crear cuenta</h2>
+
+    <input type="text" placeholder="Nombre">
+    <input type="email" placeholder="Correo">
+    <input type="password" placeholder="Contraseña">
+
+    <button>Registrarse</button>
+
+    <p>
+      ¿Ya tienes cuenta?
+      <a href="#login">Iniciar sesión</a>
+    </p>
+  </div>
+</div>
+
 </body>
 </html>
