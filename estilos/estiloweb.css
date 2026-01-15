@@ -324,7 +324,7 @@ main {
     display: block;        /* Hace que ocupe su propia línea */
     margin-top: 5px;       
     margin-bottom: 10px;   /* Espacio  */
-    color: #007bff;        
+    color: #727272;        
     text-decoration: underline;
     font-weight: bold;
     cursor: pointer;       
