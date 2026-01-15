@@ -77,12 +77,23 @@
         </button>
         <!-- Botón para mover a la derecha -->
     </div>
-                <div class="card-info">
-                    <div class="price">850€</div>
-                    <div class="location">Centro, C/ Mayor</div>
-                    <div class="features"><span>2 Hab</span><span>65m²</span></div>
-                </div>
-            </div>
+            <div class="card-info">
+
+    <div class="price">850€</div>
+
+    <div class="location">Centro, C/ Mayor</div>
+
+    <span class="ver-detalles" onclick="document.getElementById('modal-casa1').style.display='flex'">
+        Ver detalles
+    </span>
+
+    <div class="features">
+        <span>2 Hab</span>
+        <span>65m²</span>
+    </div>
+
+</div>
+</div>
 
             <div class="property-card">
                 <div class="marco-fotos">
@@ -287,7 +298,22 @@
             behavior: 'smooth' // Movimiento suave
         });
     }
-    <!-- panel secundario---->
 </script>
+<!--   modal emergente-->
+    <div id="modal-casa1" class="modal-fondo">
+        <div class="modal-contenido">
+            <span class="cerrar-btn" onclick="document.getElementById('modal-casa1').style.display='none'">&times;</span>
+
+            <h2>Centro, C/ Mayor (850€)</h2>
+            <img src="https://picsum.photos/id/10/800/400" style="width:100%; border-radius:8px; margin: 10px 0;">
+                <h3>Descripción completa</h3>
+                <p>Piso luminoso en pleno centro. Reformado recientemente. Ideal para parejas. Cuenta con calefacción central y aire acondicionado.</p>
+            <ul>
+                <li>2 Habitaciones</li>
+                <li>1 Baño completo</li>
+                <li>Cocina equipada</li>
+            </ul>
+        </div>
+    </div>
 </body>
 </html>
