@@ -12,386 +12,476 @@
 
         <header>
             <div class="logo-box">
-                <img src="../images/logoDefinitivo.png" alt="Logo Inmobiliaria" class="logo-img">
-             </div>
+                <img src="../images/logoDefinitivo.png" alt="Logo">
+            </div>
+
             <div class="dropdown">
-        <button class="main-title-pill dropdown-btn">Alquileres ▾</button>
-        <div class="dropdown-content">
-            <a href="#">Pisos</a>
-            <a href="#">Casas</a>
-        </div>
-    </div>
-
-    <div class="header-right">
-        <button class="btn-prop">Soy Propietario</button>
-        <div class="dropdown">
-            <div class="circle-btn dropdown-btn">ES</div>
-            <div class="dropdown-content small-menu">
-                <a href="#">Español</a>
-                <a href="#">Inglés</a>
+                <button class="main-title-pill dropdown-btn">Alquileres ▾</button>
+                <div class="dropdown-content">
+                    <a href="#">Pisos</a>
+                    <a href="#">Casas</a>
+                </div>
             </div>
-        </div>
 
-        <div class="dropdown">
-            <div class="circle-btn dropdown-btn">Cuenta</div>
-            <div class="dropdown-content small-menu">
-                <a href="#login">Iniciar Sesión</a>
-                <a href="#registro">Crear Cuenta</a>
-                <a href="#cerrar sesion">Cerrar Sesión</a>
+                <div class="header-right">
+                <!-- Botón Soy Propietario abre su propio modal -->
+                <button class="btn-prop" onclick="window.location.href='#login-owner'">Soy Propietario</button>
+                
+                <div class="dropdown">
+                    <div class="circle-btn dropdown-btn">ES</div>
+                    <div class="dropdown-content small-menu">
+                        <a href="#">Español</a>
+                        <a href="#">Inglés</a>
+                    </div>
+                </div>
+
+                <!-- Botón Cuenta abre Login directamente -->
+                <a href="#login" class="circle-btn" style="display:flex; align-items:center; justify-content:center;">
+                    Cuenta
+                </a>
             </div>
-        </div>
-    </div>
-</header>
+        </header>
+        </header>
 
         <aside class="sidebar">
             <div class="filter-pill">
                 <div class="filter-option">
                     <span class="filter-label">Zona</span>
-                    <span class="filter-value">Todas</span>
+                    <select id="filter-zona" onchange="applyFilters()">
+                        <option value="todas">Todas</option>
+                        <option value="centro">Centro</option>
+                        <option value="norte">Norte</option>
+                        <option value="sur">Sur</option>
+                    </select>
                 </div>
                 <div class="filter-option">
-                    <span class="filter-label">Precio</span>
-                    <span class="filter-value">Max €</span>
+                    <span class="filter-label">Precio Máx</span>
+                    <input type="number" id="filter-precio" placeholder="Ej: 1000" oninput="applyFilters()">
                 </div>
                 <div class="filter-option">
                     <span class="filter-label">Tipo</span>
-                    <span class="filter-value">Piso</span>
+                    <select id="filter-tipo" onchange="applyFilters()">
+                        <option value="todos">Todos</option>
+                        <option value="piso">Piso</option>
+                        <option value="casa">Casa</option>
+                    </select>
                 </div>
             </div>
+            <button class="btn-clear" onclick="clearFilters()">Limpiar Filtros</button>
         </aside>
 
-        <main>
-            <div class="property-card">
-    <div class="marco-fotos">
-        <!-- Botón para mover a la izquierda -->
-        <button class="btn-flotante izq" onclick="this.nextElementSibling.scrollBy(-300, 0)">
-            🡨
-        </button>
-        <div class="galeria">
-            <img src="../images/piso1.png" alt="Foto 1">
-            <img src="../images/piso1.2.png" alt="Foto 2">
-        </div>
-        <button class="btn-flotante der" onclick="this.previousElementSibling.scrollBy(300, 0)">
-            🡪
-        </button>
-        <!-- Botón para mover a la derecha -->
-    </div>
-            <div class="card-info">
-                <div class="price">850€</div>
-                <div class="location">Centro, C/ Mayor</div>
-
-        <span class="ver-detalles" onclick="document.getElementById('modal-casa1').style.display='flex'">
-        Ver detalles </span>
-             <div class="features">
-        <span>2 Hab</span>
-        <span>65m²</span>
-             </div>
-                </div>
-                </div>
-
-            <div class="property-card">
+        <main><!--LOS PISOS Y CASAS-->
+            <div class="property-card" data-zona="centro" data-precio="850" data-tipo="piso">
                 <div class="marco-fotos">
-                    <!-- Botón para mover a la izquierda -->
-        <button class="btn-flotante izq" onclick="this.nextElementSibling.scrollBy(-300, 0)">
-            🡨
-        </button>
-        <div class="galeria">
-            <img src="../images/piso2.png" alt="Foto 1">
-            <img src="../images/piso2.1.png" alt="Foto 2">
-        </div>
-       <button class="btn-flotante der" onclick="this.previousElementSibling.scrollBy(300, 0)"> 
-            🡪
-        </button>
-        <!-- Botón para mover a la derecha -->
-
-    </div>
-    <div class="card-info">
-                <div class="price">1.200€</div>
-                <div class="location">Ático con terraza</div>
-
-        <span class="ver-detalles" onclick="document.getElementById('modal-casa1').style.display='flex'">
-        Ver detalles </span>
-             <div class="features">
-        <span>3 Hab</span>
-        <span>90m²</span>
-             </div>
+                    <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">🡨</button>
+                     <!-- Botón para mover a la IZQUIERDA -->
+                     <div class="galeria">
+                         <img src="../images/piso1.png" alt="Foto 1">
+                         <img src="../images/piso1.2.png" alt="Foto 2">
+                     </div>
+                    <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">🡪</button>
+                     <!-- Botón para mover a la derecha -->
                 </div>
-                </div>
+                <div class="card-info">
+                    <div class="price">850€</div>
+                    <div class="location">Centro, C/ Mayor</div>
+                    
+                    <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">
+                        Ver detalles
+                    </span>
 
-            <div class="property-card">
+                    <div class="features">
+                        <span>2 Hab</span><span>65m²</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="property-card" data-zona="norte" data-precio="1200" data-tipo="atico">
                 <div class="marco-fotos">
-                    <!-- Botón para mover a la izquierda -->
-        <button class="btn-flotante izq" onclick="this.nextElementSibling.scrollBy(-300, 0)">
-            🡨
-        </button>
-        <div class="galeria">
-            <img src="../images/piso3.png" alt="Foto 1">
-            <img src="../images/piso3.1.png" alt="Foto 2">
-        </div>
-        <button class="btn-flotante der" onclick="this.previousElementSibling.scrollBy(300, 0)"> 
-            🡪
-        </button>
-        <!-- Botón para mover a la derecha -->
-    </div>
-    <div class="card-info">
-                <div class="price">700€</div>
-                <div class="location">Estudio Norte</div>
-
-        <span class="ver-detalles" onclick="document.getElementById('modal-casa1').style.display='flex'">
-        Ver detalles </span>
-             <div class="features">
-        <span>1 Hab</span>
-        <span>40m²</span>
-             </div>
+                    <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+                     <div class="galeria">
+                         <img src="../images/piso2.png" alt="Foto 1">
+                         <img src="../images/piso2.1.png" alt="Foto 2">
+                     </div>
+                    <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
                 </div>
-                </div>
+                <div class="card-info">
+                    <div class="price">1.200€</div>
+                    <div class="location">Ático con terraza</div>
+                    <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">
+                        Ver detalles
+                    </span>
 
-            <div class="property-card">
+                    <div class="features">
+                        <span>3 Hab</span><span>90m²</span>
+                    </div>
+                </div>
+            </div>
+
+             <div class="property-card" data-zona="norte" data-precio="700" data-tipo="estudio">
                 <div class="marco-fotos">
-                    <!-- Botón para mover a la izquierda -->
-        <button class="btn-flotante izq" onclick="this.nextElementSibling.scrollBy(-300, 0)">
-            🡨
-        </button>
-        <div class="galeria">
-            <img src="../images/piso4.png" alt="Foto 1">
-            <img src="../images/piso4.1.png" alt="Foto 2">
-        </div>
-        <button class="btn-flotante der" onclick="this.previousElementSibling.scrollBy(300, 0)"> 
-            🡪
-        </button>
-        <!-- Botón para mover a la derecha -->
-    </div>
-    <div class="card-info">
-                <div class="price">950€</div>
-                <div class="location">Casco Antiguo</div>
+                    <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+                    <div class="galeria">
+                         <img src="../images/piso3.png" alt="Foto 1">
+                         <img src="../images/piso3.1.png" alt="Foto 2">
+                     </div>
+                    <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
+                </div>
+                <div class="card-info">
+                    <div class="price">700€</div>
+                    <div class="location">Estudio Norte</div>
+                    
+                    <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">
+                        Ver detalles
+                    </span>
 
-        <span class="ver-detalles" onclick="document.getElementById('modal-casa1').style.display='flex'">
-        Ver detalles </span>
-             <div class="features">
-        <span>2 Hab</span>
-        <span>Exterior</span>
-             </div>
+                    <div class="features">
+                        <span>1 Hab</span><span>40m²</span>
+                    </div>
                 </div>
+            </div>
+            <div class="property-card" data-zona="casco antiguo" data-precio="950" data-tipo="Piso">
+                <div class="marco-fotos">
+                    <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+                    <div class="galeria">
+                         <img src="../images/piso4.png" alt="Foto 1">
+                         <img src="../images/piso4.1.png" alt="Foto 2">
+                     </div>
+                    <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
                 </div>
+                <div class="card-info">
+                    <div class="price">950€</div>
+                    <div class="location">Casco Antiguo</div>
+                    
+                    <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">
+                        Ver detalles
+                    </span>
+
+                    <div class="features">
+                        <span>2 Hab</span><span>Exterior</span>
+                    </div>
+                </div>
+            </div>
 
             <div class="property-card">
                 <div class="marco-fotos">
-                    <!-- Botón para mover a la izquierda -->
-        <button class="btn-flotante izq" onclick="this.nextElementSibling.scrollBy(-300, 0)">
-            🡨
-        </button>
-        <div class="galeria">
-            <img src="../images/piso5.png" alt="Foto 1">
-            <img src="../images/piso5.1.png" alt="Foto 2">
-        </div>
-        <button class="btn-flotante der" onclick="this.previousElementSibling.scrollBy(300, 0)"> 
-            🡪
-        </button>
-        <!-- Botón para mover a la derecha -->
-    </div>
-    <div class="card-info">
-                <div class="price">1.500€</div>
-                <div class="location">Adosado con Jardín</div>
+                    <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+                    <div class="galeria">
+                         <img src="../images/piso5.png" alt="Foto 1">
+                         <img src="../images/piso5.1.png" alt="Foto 2">
+                     </div>
+                    <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
+                </div>
+                <div class="card-info">
+                    <div class="price">1.500€</div>
+                    <div class="location">Adosado Jardín</div>
+                    <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">
+                        Ver detalles
+                    </span>
 
-        <span class="ver-detalles" onclick="document.getElementById('modal-casa1').style.display='flex'">
-        Ver detalles </span>
-             <div class="features">
-        <span>4 Hab</span>
-        <span>Garaje</span>
-             </div>
+                    <div class="features">
+                        <span>4 Hab</span><span>Garaje</span>
+                    </div>
                 </div>
-                </div>
+            </div>
 
             <div class="property-card">
                 <div class="marco-fotos">
-                    <!-- Botón para mover a la izquierda -->
-        <button class="btn-flotante izq" onclick="this.nextElementSibling.scrollBy(-300, 0)">
-            🡨
-        </button>
-        <div class="galeria">
-            <img src="../images/piso6ç.png" alt="Foto 1">
-            <img src="../images/piso6.1.png" alt="Foto 2">
-        </div>
-       <button class="btn-flotante der" onclick="this.previousElementSibling.scrollBy(300, 0)"> 
-            🡪
-        </button>
-        <!-- Botón para mover a la derecha -->
-    </div>
-    <div class="card-info">
-                <div class="price">600€</div>
-                <div class="location">Loft Industrial</div>
+                    <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+                    <div class="galeria">
+                         <img src="../images/piso6ç.png" alt="Foto 1">
+                         <img src="../images/piso6.1.png" alt="Foto 2">
+                     </div>
+                    <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
+                </div>
+                <div class="card-info">
+                    <div class="price">1.500€</div>
+                    <div class="location">Loft Industrial</div>
+                    <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">
+                        Ver detalles
+                    </span>
 
-        <span class="ver-detalles" onclick="document.getElementById('modal-casa1').style.display='flex'">
-        Ver detalles </span>
-             <div class="features">
-        <span>1 Hab</span>
-        <span>Dúplex</span>
-             </div>
+                    <div class="features">
+                        <span>1 Hab</span><span>Dúplex</span>
+                    </div>
                 </div>
-                </div>
+            </div>
 
             <div class="property-card">
                 <div class="marco-fotos">
-                    <!-- Botón para mover a la izquierda -->
-        <button class="btn-flotante izq" onclick="this.nextElementSibling.scrollBy(-300, 0)">
-            🡨
-        </button>
-        <div class="galeria">
-            <img src="../images/piso7.png" alt="Foto 1">
-            <img src="../images/piso7.1.png" alt="Foto 2">
-        </div>
-       <button class="btn-flotante der" onclick="this.previousElementSibling.scrollBy(300, 0)"> 
-            🡪
-        </button>
-    </div>
-    <div class="card-info">
-                <div class="price">1.100€</div>
-                <div class="location">Piso familiar</div>
+                    <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+                    <div class="galeria">
+                         <img src="../images/piso7.png" alt="Foto 1">
+                         <img src="../images/piso7.1.png" alt="Foto 2">
+                         <img src="../images/piso7.2.png" alt="Foto 3">
+                     </div>
+                    <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
+                </div>
+                <div class="card-info">
+                    <div class="price">1.100€</div>
+                    <div class="location">Piso Familiar</div>
+                    <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">
+                        Ver detalles
+                    </span>
 
-        <span class="ver-detalles" onclick="document.getElementById('modal-casa1').style.display='flex'">
-        Ver detalles </span>
-             <div class="features">
-        <span>3 Hab</span>
-        <span>2 Baños</span>
-             </div>
+                    <div class="features">
+                        <span>3 Hab</span><span>2 Baños</span>
+                    </div>
                 </div>
+            </div>
+            
+            <div class="property-card">
+                <div class="marco-fotos">
+                    <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+                    <div class="galeria">
+                         <img src="../images/piso8.png" alt="Foto 1">
+                         <img src="../images/piso8.1.png" alt="Foto 2">
+                         <img src="../images/piso8.2.png" alt="Foto 3">
+                     </div>
+                    <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
                 </div>
+                <div class="card-info">
+                    <div class="price">890€</div>
+                    <div class="location">Cerca Universidad</div>
+                    <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">
+                        Ver detalles
+                    </span>
+
+                    <div class="features">
+                        <span>2 Hab</span><span>Amueblado</span>
+                    </div>
+                </div>
+            </div>
 
             <div class="property-card">
                 <div class="marco-fotos">
-                    <!-- Botón para mover a la izquierda -->
-        <button class="btn-flotante izq" onclick="this.nextElementSibling.scrollBy(-300, 0)">
-            🡨
-        </button>
-        <div class="galeria">
-            <img src="../images/piso8.png" alt="Foto 1">
-            <img src="../images/piso8.1.png" alt="Foto 2">
-        </div>
-       <button class="btn-flotante der" onclick="this.previousElementSibling.scrollBy(300, 0)"> 
-            🡪
-        </button>
-        <!-- Botón para mover a la derecha -->
-    </div>
-    <div class="card-info">
-                <div class="price">890€</div>
-                <div class="location">Cerca Universidad</div>
-
-        <span class="ver-detalles" onclick="document.getElementById('modal-casa1').style.display='flex'">
-        Ver detalles </span>
-             <div class="features">
-        <span>2 Hab</span>
-        <span>Amueblado</span>
-             </div>
+                    <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+                    <div class="galeria">
+                         <img src="../images/piso9.png" alt="Foto 1">
+                         <img src="../images/piso9.1.png" alt="Foto 2">
+                         <img src="../images/piso9.2.png" alt="Foto 3">
+                     </div>
+                    <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
                 </div>
-             </div>
+                <div class="card-info">
+                    <div class="price">2.000€</div>
+                    <div class="location">Villa de Lujo</div>
+                    <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">
+                        Ver detalles
+                    </span>
 
-             <div class="property-card">
-                <div class="marco-fotos">
-                    <!-- Botón para mover a la izquierda -->
-        <button class="btn-flotante izq" onclick="this.nextElementSibling.scrollBy(-300, 0)">
-            🡨
-        </button>
-        <div class="galeria">
-            <img src="../images/piso9.png" alt="Foto 1">
-            <img src="../images/piso9.1.png" alt="Foto 2">
-        </div>
-       <button class="btn-flotante der" onclick="this.previousElementSibling.scrollBy(300, 0)"> 
-            🡪
-        </button>
-        <!-- Botón para mover a la derecha -->
-    </div>
-    <div class="card-info">
-                <div class="price">2.000€</div>
-                <div class="location">Villa de Lujo</div>
-
-        <span class="ver-detalles" onclick="document.getElementById('modal-casa1').style.display='flex'">
-        Ver detalles </span>
-             <div class="features">
-        <span>5 Hab</span>
-        <span>Piscina</span>
-             </div>
+                    <div class="features">
+                        <span>5 Hab</span><span>Piscina</span>
+                    </div>
                 </div>
-                </div>
-        </main>
-
+            </div>
+            </main>
 
         <footer>
             Footer Inmobiliaria
         </footer>
     </div>
-<!--   javascript, para mover las fotos-->
-    <script>
-    function moverSlide(boton) {
-        // 1. Buscamos el contenedor de fotos que está al lado del botón
-        const slider = boton.nextElementSibling;
-        
-        // 2. Calculamos cuánto mide una foto de ancho
-        const anchoFoto = slider.offsetWidth;
-        
-        // 3. Movemos hacia la derecha
-        slider.scrollBy({
-            left: anchoFoto, 
-            behavior: 'smooth' // Movimiento suave
-        });
-    }
-</script>
-<!-- MODAL LOGIN -->
-<div id="login" class="modal-fondo">
-  <div class="modal">
-    <a href="#" class="cerrar">✕</a>
 
-    <h2>Iniciar sesión</h2>
 
-    <input type="email" placeholder="Correo">
-    <input type="password" placeholder="Contraseña">
+    <div id="propertyModal" class="modal-fondo">
+        <div class="modal-contenido-grande">
+            
+            <div class="modal-col-izq">
+                <button class="btn-flotante izq" onclick="moverGaleriaModal(-1)" style="left:15px; background:rgba(255,255,255,0.3); color:white; border:none;">❮</button>
+                
+                <div id="modal-img-container" style="width:100%; height:100%; display:flex; overflow:hidden;">
+                    </div>
+                
+                <button class="btn-flotante der" onclick="moverGaleriaModal(1)" style="right:15px; background:rgba(255,255,255,0.3); color:white; border:none;">❯</button>
+            </div>
 
-    <button>Entrar</button>
+            <div class="modal-col-der">
+                <span class="cerrar-modal-x" onclick="closeModal()">×</span>
 
-    <p>
-      ¿No tienes cuenta?
-      <a href="#registro">Crear cuenta</a>
-    </p>
-  </div>
-</div>
+                <h2 id="modal-title" style="color:#2c3e50; font-size:26px; margin-bottom:5px;">Título</h2>
+                <div id="modal-location" style="color:#777; margin-bottom:15px;">Ubicación</div>
+                
+                <div id="modal-price" style="font-size:32px; font-weight:bold; color:#17a2b8; margin-bottom:20px;">0€</div>
+                
+                <div id="modal-features" class="features" style="border:none; padding:0; margin-bottom:20px;"></div>
+                
+                <div style="flex:1; overflow-y:auto; margin-bottom:20px;">
+                    <p id="modal-description-text" style="color:#555; line-height:1.6;">
+                        Descripción de la propiedad...
+                    </p>
+                </div>
 
-<!-- MODAL REGISTRO -->
-<div id="registro" class="modal-fondo">
-  <div class="modal">
-    <a href="#" class="cerrar">✕</a>
+                <div style="display:flex; gap:10px;">
+                    <button onclick="toggleCalendario()" style="flex:1; padding:12px; background:#2c3e50; color:white; border:none; border-radius:6px; cursor:pointer;">Ver Disponibilidad</button>
+                    <button style="flex:1; padding:12px; background:#17a2b8; color:white; border:none; border-radius:6px; cursor:pointer;">Reservar</button>
+                </div>
 
-    <h2>Crear cuenta</h2>
-
-    <input type="text" placeholder="Nombre">
-    <input type="email" placeholder="Correo">
-    <input type="password" placeholder="Contraseña">
-
-    <button>Registrarse</button>
-
-    <p>
-      ¿Ya tienes cuenta?
-      <a href="#login">Iniciar sesión</a>
-    </p>
-  </div>
-</div>
-<<<<<<< HEAD
-<!--   modal emergente-->
-    <div id="modal-casa1" class="modal-fondo">
-        <div class="modal-contenido">
-            <span class="cerrar-btn" onclick="document.getElementById('modal-casa1').style.display='none'">&times;</span>
-
-            <h2>Centro, C/ Mayor (850€)</h2>
-            <img src="https://picsum.photos/id/10/800/400" style="width:100%; border-radius:8px; margin: 10px 0;">
-                <h3>Descripción completa</h3>
-                <p>Piso luminoso en pleno centro. Reformado recientemente. Ideal para parejas. Cuenta con calefacción central y aire acondicionado.</p>
-            <ul>
-                <li>2 Habitaciones</li>
-                <li>1 Baño completo</li>
-                <li>Cocina equipada</li>
-            </ul>
+                <div id="calendario-reserva" class="calendario-reserva" style="display: none;">
+                    <div class="calendario-header">
+                        <button onclick="cambiarMes(-1)" style="cursor:pointer;">❮</button>
+                        <span id="mes-actual">Enero 2026</span>
+                        <button onclick="cambiarMes(1)" style="cursor:pointer;">❯</button>
+                    </div>
+                    <div class="grid-dias" id="grid-dias"></div>
+                </div>
+            </div>
         </div>
     </div>
-=======
 
->>>>>>> 8118fac771f4b5b4834cd074fda20b876f2b38f7
+
+    <div id="login" class="modal-fondo">
+        <div class="modal-login-content">
+            <a href="#" class="cerrar">✕</a>
+            <h2>Iniciar sesión</h2>
+            <input type="email" placeholder="Correo">
+            <input type="password" placeholder="Contraseña">
+            <button>Entrar</button>
+            <p style="margin-top:10px; font-size:0.9rem;">¿No tienes cuenta? <a href="#registro">Crear cuenta</a></p>
+        </div>
+    </div>
+
+    <div id="registro" class="modal-fondo">
+        <div class="modal-login-content">
+            <a href="#" class="cerrar">✕</a>
+            <h2>Crear cuenta</h2>
+            <input type="text" placeholder="Nombre">
+            <input type="email" placeholder="Correo">
+            <input type="password" placeholder="Contraseña">
+            <button>Registrarse</button>
+            <p style="margin-top:10px; font-size:0.9rem;">¿Ya tienes cuenta? <a href="#login">Iniciar sesión</a></p>
+        </div>
+    </div>
+
+    <div id="login-owner" class="modal-fondo">
+        <div class="modal-login-content" style="border: 2px solid #2c3e50;">
+            <a href="#" class="cerrar">✕</a>
+            <h2 style="color: #2c3e50;">Acceso Propietarios</h2>
+            <input type="email" placeholder="Correo Corporativo">
+            <input type="password" placeholder="Contraseña">
+            <button onclick="window.location.href='propietario.html'">Acceder</button>
+            <p>Solo personal autorizado</p>
+        </div>
+    </div>
+
+
+    <script>
+        // 1. FILTROS
+        function applyFilters() {
+            const zona = document.getElementById('filter-zona').value.toLowerCase();
+            const precioMax = parseFloat(document.getElementById('filter-precio').value) || Infinity;
+            const tipo = document.getElementById('filter-tipo').value.toLowerCase();
+
+            document.querySelectorAll('.property-card').forEach(card => {
+                const cZona = card.getAttribute('data-zona') || "";
+                const cPrecio = parseFloat(card.getAttribute('data-precio')) || 0;
+                const cTipo = card.getAttribute('data-tipo') || "";
+
+                let show = true;
+                if (zona !== 'todas' && cZona !== zona) show = false;
+                if (cPrecio > precioMax) show = false;
+                if (tipo !== 'todos' && cTipo !== tipo) show = false;
+
+                card.style.display = show ? 'flex' : 'none';
+            });
+        }
+
+        function clearFilters() {
+            document.getElementById('filter-zona').value = 'todas';
+            document.getElementById('filter-precio').value = '';
+            document.getElementById('filter-tipo').value = 'todos';
+            applyFilters();
+        }
+
+        // 2. GALERIA DE LAS TARJETAS (Pequeña)
+        function moverGaleria(e, btn, dir) {
+            e.stopPropagation(); // Evita que se abra el modal al hacer click en flechas
+            const container = btn.parentElement.querySelector('.galeria');
+            container.scrollBy({ left: dir * 300, behavior: 'smooth' });
+        }
+
+        // 3. LOGICA DEL MODAL DE DETALLES
+        const modal = document.getElementById("propertyModal");
+        
+        function openModal(card) {
+            // Sacar datos de la tarjeta clickeada
+            const title = card.querySelector('.location').innerText;
+            const price = card.querySelector('.price').innerText;
+            const features = card.querySelector('.features').innerHTML;
+            
+            // Llenar el modal
+            document.getElementById("modal-title").innerText = title;
+            document.getElementById("modal-location").innerText = title; // Repetimos titulo en location por simplicidad
+            document.getElementById("modal-price").innerText = price;
+            document.getElementById("modal-features").innerHTML = features;
+            
+            document.getElementById("modal-description-text").innerText = 
+                `Esta magnifica propiedad en ${title} cuenta con todas las comodidades. ` +
+                `Por un precio de ${price}, es una oportunidad única. Contáctanos para visitarla.`;
+
+            // Clonar imágenes
+            const modalImgs = document.getElementById("modal-img-container");
+            modalImgs.innerHTML = ''; // Limpiar anteriores
+            const images = card.querySelectorAll('.galeria img');
+            images.forEach(img => {
+                let clone = img.cloneNode();
+                clone.style.minWidth = "100%"; // Asegurar que ocupen todo el modal
+                modalImgs.appendChild(clone);
+            });
+            
+            // Mostrar modal
+            modal.style.display = "flex"; 
+            document.body.style.overflow = "hidden"; // Bloquear scroll del fondo
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+        
+        // Cerrar si click fuera del contenido
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // Galería dentro del modal
+        function moverGaleriaModal(dir) {
+            const container = document.getElementById("modal-img-container");
+            const w = container.offsetWidth;
+            container.scrollBy({ left: dir * w, behavior: 'smooth' });
+        }
+
+        // 4. CALENDARIO SIMPLE
+        let currentMonth = 0; // Enero
+        function toggleCalendario() {
+            const cal = document.getElementById("calendario-reserva");
+            cal.style.display = (cal.style.display === "none") ? "block" : "none";
+            if(cal.style.display === "block") renderCalendario();
+        }
+
+        function renderCalendario() {
+            const grid = document.getElementById("grid-dias");
+            grid.innerHTML = "";
+            // Generar 30 dias dummy
+            for(let i=1; i<=30; i++) {
+                let d = document.createElement("div");
+                d.className = "dia";
+                d.innerText = i;
+                if(i % 5 === 0) d.classList.add("ocupado"); // Dummy ocupados
+                else {
+                    d.onclick = function() { this.classList.toggle("seleccionado"); }
+                }
+                grid.appendChild(d);
+            }
+        }
+        function cambiarMes(d) {
+             // Solo cambia el texto por efecto visual
+             const meses = ["Ene", "Feb", "Mar", "Abr"];
+             let m = document.getElementById("mes-actual");
+             m.innerText = "Mes siguiente...";
+        }
+
+    </script>
 </body>
 </html>
