@@ -5,6 +5,8 @@ body.modo-propietario {
     background-color: #e3e8ef;
 }
 
+
+
 /* Header del panel */
 
 header {
@@ -36,6 +38,20 @@ header {
     border-radius: 5px;
 }
 
+main {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 Columnas */
+    grid-auto-rows: min-content;
+    gap: 30px;
+    overflow-y: auto;
+    padding: 10px;
+    align-content: start;
+}
+@media (max-width: 1000px) {
+    main { grid-template-columns: 1fr; }
+}
+
+
 /* Sección derecha del header */
 .header-right span {
     margin-right: 15px;
@@ -54,17 +70,85 @@ header {
 }
 
 /* Imágenes dentro de las cards */
-.marco-fotos img {
-    width: 90%;
-    height: 90%;
-    object-fit: cover;
+/* --- TARJETA DE PROPIEDAD --- */
+.property-card {
+    background-color: #fff;
+    border: 5px solid #ccc;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
+.property-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-color: #2c3e50;
+}
+
+.marco-fotos {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    background-color: #eee;
+    overflow: hidden;
+}
+
+.galeria {
+    display: flex;
+    width: 100%; height: 100%;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+.galeria::-webkit-scrollbar { display: none; }
+
+.galeria img {
+    min-width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.marco-fotos {
+    width: 100%;          /* Ocupa todo el ancho de la tarjeta */
+    height: 250px;        /* Altura fija para que todas sean iguales */
+    position: relative;   /* Para que las flechas se queden dentro */
+    overflow: hidden;     /* Para que nada se salga de los bordes */
+    background-color: #eee; /* Color de fondo por si la imagen tarda en cargar */
+}
+
+.marco-fotos img {
+    width: 100%;          /* Estirar a lo ancho */
+    height: 100%;         /* Estirar a lo alto */
+    object-fit: cover;    /* Recorta la imagen para llenar el hueco sin deformarla */
+    display: block;       /* Elimina pequeños espacios en blanco abajo */
+}
+
+/* Info de la tarjeta */
+.card-info {
+    padding: 15px;
+    border-top: 1px solid #f0f0f0;
+    text-align: left;
+}
+
+.price {
+    font-size: 24px;
+    font-weight: 800;
+    color: #17a2b8; /* Turquesa */
+    margin-bottom: 5px;
+}
+
+.location {
+    font-size: 15px;
+    color: #666;
+    margin-bottom: 8px;
+}
 /* Controles de administración (Botones editar/borrar) */
 .admin-controls {
     padding: 10px;
     background-color: #f8f9fa;
-    border-top: 1px solid #ddd;
+    border-top: 15px solid #ddd;
     display: flex;
     justify-content: space-between;
     gap: 5px;
@@ -72,7 +156,7 @@ header {
 
 .admin-btn {
     flex: 1;
-    padding: 5px;
+    padding: 10px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
