@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Propietario - Kasa</title>
+    <link rel="stylesheet" href="../estilos/estiloweb.css">
+    <style>
+        /* Estilos específicos para el modo propietario */
+        body {
+            background-color: #e3e8ef;
+        }
+
+        .admin-controls {
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            gap: 5px;
+        }
+
+        .admin-btn {
+            flex: 1;
+            padding: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .btn-edit {
+            background-color: #ffc107;
+            color: #333;
+        }
+
+        .btn-hide {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .header-right span {
+            margin-right: 15px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="layout-grid">
+
+        <header style="background-color: #fff; padding: 10px; border-radius: 10px;">
+            <div class="logo-box">
+                <img src="../images/logoDefinitivo.png" alt="Logo">
+            </div>
+
+            <div class="main-title-pill" style="background:#2c3e50; color:white;">
+                PANEL PROPIETARIO
+            </div>
+
+            <div class="header-right">
+                <span>Bienvenido, Propietario</span>
+                <button class="btn-prop" style="background:#dc3545; color:white; border:none;"
+                    onclick="window.location.href='web.html'">Cerrar Sesión</button>
+            </div>
+        </header>
+
+        <main>
+            <!-- Las mismas cards pero con controles de admin -->
+
+            <!-- PROPIEDAD 1 -->
+            <div class="property-card" id="prop1">
+                <div class="marco-fotos">
+                    <img src="../images/piso1.png" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+                <div class="card-info">
+                    <div class="price" contenteditable="true">850€</div>
+                    <div class="location" contenteditable="true">Centro, C/ Mayor</div>
+                    <div class="features"><span>2 Hab</span><span>65m²</span></div>
+                </div>
+                <!-- Controles Propietario -->
+                <div class="admin-controls">
+                    <button class="admin-btn btn-edit" onclick="alert('Cambios guardados')">Guardar</button>
+                    <button class="admin-btn btn-hide" onclick="toggleVisibility('prop1')">Ocultar/Ver</button>
+                    <button class="admin-btn btn-delete" onclick="deleteProp('prop1')">Eliminar</button>
+                </div>
+            </div>
+
+            <div class="property-card" id="prop2">
+                <div class="marco-fotos">
+                    <img src="../images/piso2.png" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+                <div class="card-info">
+                    <div class="price" contenteditable="true">1.200€</div>
+                    <div class="location" contenteditable="true">Ático con terraza</div>
+                    <div class="features"><span>3 Hab</span><span>90m²</span></div>
+                </div>
+                <div class="admin-controls">
+                    <button class="admin-btn btn-edit" onclick="alert('Cambios guardados')">Guardar</button>
+                    <button class="admin-btn btn-hide" onclick="toggleVisibility('prop2')">Ocultar/Ver</button>
+                    <button class="admin-btn btn-delete" onclick="deleteProp('prop2')">Eliminar</button>
+                </div>
+            </div>
+
+            <div class="property-card" id="prop3">
+                <div class="marco-fotos">
+                    <img src="../images/piso3.png" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+                <div class="card-info">
+                    <div class="price" contenteditable="true">700€</div>
+                    <div class="location" contenteditable="true">Estudio Norte</div>
+                    <div class="features"><span>1 Hab</span><span>40m²</span></div>
+                </div>
+                <div class="admin-controls">
+                    <button class="admin-btn btn-edit" onclick="alert('Cambios guardados')">Guardar</button>
+                    <button class="admin-btn btn-hide" onclick="toggleVisibility('prop3')">Ocultar/Ver</button>
+                    <button class="admin-btn btn-delete" onclick="deleteProp('prop3')">Eliminar</button>
+                </div>
+            </div>
+
+            <div class="property-card">
+                <div style="display:flex; align-items:center; justify-content:center; height:100%; min-height:200px; background:#ddd; color:#666; font-weight:bold; cursor:pointer;"
+                    onclick="alert('Añadir nueva propiedad')">
+                    + AÑADIR PROPIEDAD
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        function deleteProp(id) {
+            if (confirm("¿Seguro que quieres eliminar esta publicación?")) {
+                document.getElementById(id).remove();
+            }
+        }
+        function toggleVisibility(id) {
+            const el = document.getElementById(id);
+            if (el.style.opacity === '0.5') {
+                el.style.opacity = '1';
+                alert('Publicación ahora es visible para todos');
+            } else {
+                el.style.opacity = '0.5';
+                alert('Publicación oculta (Borrador)');
+            }
+        }
+    </script>
+</body>
+
+</html>
