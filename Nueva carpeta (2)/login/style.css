@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700');
+
+body {
+  background: #dfe2e8; /* Color de fondo general */
+  font-family: 'Open Sans', sans-serif;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.frame {
+  height: 575px;
+  width: 430px;
+  background: #232946; /* Fondo oscuro del panel */
+  background-size: cover;
+  margin-left: auto;
+  margin-right: auto;
+  border-top: solid 1px rgba(255,255,255,.5);
+  border-radius: 5px;
+  box-shadow: 0px 2px 7px rgba(0,0,0,0.2);
+  overflow: hidden;
+  position: relative;
+  transition: all .5s ease;
+}
+
+.nav {
+  width: 100%;
+  height: 100px;
+  padding-top: 40px;
+  opacity: 1;
+  transition: all .5s ease;
+}
+
+.nav .links {
+  list-style-type: none;
+  padding: 0;
+  text-align: center;
+}
+
+.nav .links li {
+  display: inline;
+  cursor: pointer;
+  margin: 0 15px;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.signin-active a {
+  color: #ffffff;
+  border-bottom: 2px solid #1059FF;
+  padding-bottom: 5px;
+}
+
+.signup-inactive a {
+  color: rgba(255,255,255,0.3);
+  text-decoration: none;
+  transition: all .3s ease;
+}
+
+.signup-inactive a:hover {
+  color: #ffffff;
+}
+
+.form-signin {
+  width: 430px;
+  height: 375px;
+  font-size: 16px;
+  font-weight: 300;
+  padding-left: 37px;
+  padding-right: 37px;
+  padding-top: 55px;
+  position: absolute;
+  top: 80px;
+  left: 0;
+  box-sizing: border-box; /* Importante para el padding */
+  transition: all .5s ease;
+  z-index: 2;
+}
+
+/* Campos de texto */
+.form-styling {
+  width: 100%;
+  height: 35px;
+  padding-left: 15px;
+  border: none;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  background: rgba(255,255,255,.2);
+  color: #fff;
+  box-sizing: border-box;
+}
+
+.form-styling:focus {
+  outline: none;
+  background: rgba(255,255,255,.3);
+}
+
+label {
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 13px;
+  padding-left: 15px;
+  padding-bottom: 10px;
+  color: rgba(255,255,255,.7);
+  display: block;
+}
+
+/* Botones principales */
+.btn-signin, .btn-signup {
+  float: left;
+  padding-top: 8px;
+  width: 100%;
+  height: 35px;
+  border: none;
+  border-radius: 20px;
+  margin-top: 20px;
+  cursor: pointer;
+  text-align: center;
+  color: #fff;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: #1059FF; /* Azul brillante */
+  transition: all .3s ease;
+}
+
+.btn-signin:hover, .btn-signup:hover {
+  background: #0d47a1;
+}
+
+/* Checkbox personalizado */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+input[type="checkbox"] {
+    display: none; /* Ocultar checkbox real */
+}
+.ui {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: #40465c;
+    border-radius: 3px;
+    margin-right: 10px;
+    vertical-align: middle;
+    cursor: pointer;
+    position: relative;
+}
+input[type="checkbox"]:checked + label .ui::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #1059FF;
+    top: 5px;
+    left: 5px;
+    border-radius: 50%;
+}
+
+/* --- ANIMACIÓN Y ESTADO DE REGISTRO --- */
+
+/* Formulario de registro inicialmente escondido a la derecha */
+.form-signup {
+  width: 430px;
+  height: 375px;
+  font-size: 16px;
+  font-weight: 300;
+  padding-left: 37px;
+  padding-right: 37px;
+  padding-top: 25px; /* Ajuste para que quepan mas campos */
+  position: absolute;
+  top: 80px;
+  left: 430px; /* Fuera de la pantalla */
+  opacity: 0;
+  box-sizing: border-box;
+  transition: all .5s ease;
+  z-index: 1;
+}
+
+/* Clases que se activan con JS */
+.form-signin-left {
+  transform: translateX(-430px);
+  opacity: 0;
+}
+
+.form-signup-left {
+  transform: translateX(-430px);
+  opacity: 1;
+}
+
+.frame.frame-short {
+    /* Opcional: si quisieras cambiar el tamaño del frame al cambiar de tab */
+    height: 600px; 
+}
