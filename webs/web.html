@@ -20,11 +20,9 @@
                 <button class="btn-prop" onclick="window.location.href='#login-owner'">Soy Propietario</button>
                 
                 <div class="dropdown">
-                    <div class="circle-btn dropdown-btn">ES</div>
-                    <div class="dropdown-content small-menu">
-                        <a href="#">Español</a>
-                        <a href="#">Inglés</a>
-                    </div>
+                    <button class="circle-btn" onclick="window.location.href='web_en.html'">
+                         EN
+                    </button>
                 </div>
 
                 <!-- Botón Cuenta abre Login directamente -->
@@ -595,10 +593,12 @@
         <div class="modal-login-content">
             <a href="#" class="cerrar">✕</a>
             <h2>Iniciar sesión</h2>
-            <input type="email" placeholder="Correo">
-            <input type="password" placeholder="Contraseña">
-            <button>Entrar</button>
-            <p style="margin-top:10px; font-size:0.9rem;">¿No tienes cuenta? <a href="#registro">Crear cuenta</a></p>
+            <form onsubmit="event.preventDefault(); alert('Sesión iniciada correctamente'); window.location.href='#';">
+                <input type="email" name="email" placeholder="Correo" required>
+                <input type="password" name="password" placeholder="Contraseña" required>
+                <button type="submit">Entrar</button>
+            </form>
+            <p>¿No tienes cuenta? <a href="#registro">Crear cuenta</a></p>
         </div>
     </div>
 
@@ -606,22 +606,26 @@
         <div class="modal-login-content">
             <a href="#" class="cerrar">✕</a>
             <h2>Crear cuenta</h2>
-            <input type="text" placeholder="Nombre">
-            <input type="email" placeholder="Correo">
-            <input type="password" placeholder="Contraseña">
-            <button>Registrarse</button>
-            <p style="margin-top:10px; font-size:0.9rem;">¿Ya tienes cuenta? <a href="#login">Iniciar sesión</a></p>
+            <form onsubmit="event.preventDefault(); alert('Cuenta creada correctamente. Ahora puedes iniciar sesión.'); window.location.href='#login';">
+                <input type="text" name="nombre" placeholder="Nombre" required>
+                <input type="email" name="email" placeholder="Correo" required>
+                <input type="password" name="password" placeholder="Contraseña" required>
+                <button type="submit">Registrarse</button>
+            </form>
+            <p>¿Ya tienes cuenta? <a href="#login">Iniciar sesión</a></p>
         </div>
     </div>
 
-    <div id="login-owner" class="modal-fondo">
-        <div class="modal-login-content" style="border: 2px solid #2c3e50;">
+    <div id="login-owner" class="modal-fondo owner-modal">
+        <div class="modal-login-content">
             <a href="#" class="cerrar">✕</a>
             <h2 style="color: #2c3e50;">Acceso Propietarios</h2>
-            <input type="email" placeholder="Correo Corporativo">
-            <input type="password" placeholder="Contraseña">
-            <button onclick="window.location.href='propietario.html'">Acceder</button>
-            <p>Solo personal autorizado</p>
+            <form onsubmit="event.preventDefault(); alert('Acceso concedido'); window.location.href='propietario.html';">
+                <input type="email" name="email" placeholder="Correo Corporativo" required>
+                <input type="password" name="password" placeholder="Contraseña" required>
+                <button type="submit">Acceder</button>
+            </form>
+            <p>Solo personal autorizado.</p>
         </div>
     </div>
 
