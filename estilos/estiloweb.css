@@ -128,58 +128,95 @@ header {
 
 
 /* --- SIDEBAR (FILTROS) --- */
-.sidebar { display: flex; flex-direction: column; }
-
-.filter-pill {
-    background-color: #fff;
-    border: 2px solid #2c3e50;
-    border-radius: 30px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    height: 300px;
-    box-shadow: 4px 4px 0px #1a8997;
+/* Estilos del Sidebar Bonito */
+.sidebar-filtros {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Sombra suave */
+    border: 1px solid #f0f0f0;
+    height: fit-content;
+    /* width: 100%;  <-- Descomenta esto si ves que queda muy estrecho */
 }
 
-.filter-option {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-bottom: 1px solid #e0e0e0;
-    padding: 5px;
-    text-align: center;
-}
-.filter-option:last-child { border-bottom: none; }
-.filter-label { font-size: 0.75rem; color: #666; margin-bottom: 2px; }
-
-.filter-option select, .filter-option input {
-    width: 90%;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-family: inherit;
-    font-size: 0.9rem;
+.sidebar-header h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
     color: #2c3e50;
-    outline: none;
-    background-color: #f9f9f9;
+    border-bottom: 2px solid #f0f2f5;
+    padding-bottom: 10px;
 }
 
-.btn-clear {
+.filtro-grupo {
+    margin-bottom: 20px;
+}
+
+.filtro-grupo label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.9rem;
+}
+
+/* Envoltorio para poner el icono dentro del input */
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.icono-input {
+    position: absolute;
+    left: 12px;
+    font-size: 1.1rem;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Estilo de los inputs y selects */
+.sidebar-filtros select,
+.sidebar-filtros input {
+    width: 100%;
+    padding: 12px 12px 12px 40px; /* Hueco a la izquierda para el icono */
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    font-size: 0.95rem;
+    color: #555;
+    outline: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.sidebar-filtros select:focus,
+.sidebar-filtros input:focus {
+    background-color: #fff;
+    border-color: #17a2b8; /* Color turquesa al clicar */
+    box-shadow: 0 0 0 3px rgba(23, 162, 184, 0.1);
+}
+
+/* Botón Limpiar */
+.btn-limpiar {
+    width: 100%;
+    padding: 12px;
     background-color: #2c3e50;
     color: white;
     border: none;
-    padding: 10px;
-    margin: 10px 0;
     border-radius: 8px;
-    width: 100%;
     font-weight: bold;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: transform 0.1s;
+    margin-top: 10px;
 }
-.btn-clear:hover { background-color: #1a8997; }
 
+.btn-limpiar:hover {
+    background-color: #1a252f;
+}
+
+.btn-limpiar:active {
+    transform: scale(0.98);
+}
 
 /* --- MAIN (GRID DE CASAS) --- */
 main {
@@ -419,12 +456,110 @@ main {
 
 /* --- FOOTER --- */
 footer {
-    grid-column: 1 / -1;
-    background-color: #d0e1f5;
-    border: 2px solid #2c3e50;
-    border-radius: 15px;
-    height: 50px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.9rem; font-weight: 500;
+  grid-column: 1 / -1;
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  padding: 15px 20px; /* Reducido de 40px */
+  border-top: 3px solid #1a8997;
+  border-radius: 15px 15px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Reducido de 30px */
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Minmax reducido */
+  gap: 20px; /* Reducido de 40px */
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  gap: 5px; /* Reducido */
+}
+
+.footer-column h3 {
+  color: #d0e1f5;
+  font-size: 0.95rem; /* Reducido de 1.2rem */
+  margin-bottom: 2px;
+  position: relative;
+  display: inline-block;
+}
+
+/* Subrayado decorativo para títulos del footer */
+.footer-column h3::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 20px;
+  height: 2px;
+  background-color: #1a8997;
+}
+
+.footer-column p {
+  font-size: 0.8rem; /* Reducido de 0.9rem */
+  line-height: 1.4;
+  color: #bdc3c7;
+}
+
+.footer-column a {
+  color: #bdc3c7;
+  text-decoration: none;
+  font-size: 0.85rem; /* Reducido de 0.95rem */
+  transition: color 0.3s, padding-left 0.3s;
+}
+
+.footer-column a:hover {
+  color: #1a8997;
+  padding-left: 5px;
+}
+
+.social-links {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.social-icon {
+  width: 28px; /* Reducido de 35px */
+  height: 28px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-decoration: none;
+  font-size: 0.8rem;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.social-icon:hover {
+  background-color: #1a8997;
+  transform: translateY(-2px);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 10px; /* Reducido de 20px */
+  text-align: center;
+  font-size: 0.75rem; /* Reducido de 0.85rem */
+  color: #95a5a6;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+@media (min-width: 600px) {
+  .footer-bottom {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 

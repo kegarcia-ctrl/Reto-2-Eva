@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inmobiliaria - Alquiler</title>
+    <title>Inmobiliaria Kasa</title>
     <link rel="stylesheet" href="../estilos/estiloweb.css">
 </head>
 <body>
@@ -14,8 +14,6 @@
             <div class="logo-box">
                 <img src="../images/logoDefinitivo.png" alt="Logo">
             </div>
-
-           
 
                 <div class="header-right">
                 <!-- Botón Soy Propietario abre su propio modal -->
@@ -35,51 +33,68 @@
                 </a>
             </div>
         </header>
-        </header>
 
-        <aside class="sidebar">
-            <div class="filter-pill">
-                <div class="filter-option">
-                    <span class="filter-label">Zona</span>
-                    <select id="filter-zona" onchange="applyFilters()">
-                        <option value="todas">Todas</option>
-                        <option value="centro">Centro</option>
-                        <option value="norte">Norte</option>
-                        <option value="sur">Sur</option>
-                    </select>
-                </div>
-                <div class="filter-option">
-                    <span class="filter-label">Precio Máx</span>
-                    <input type="number" id="filter-precio" placeholder="Ej: 1000" oninput="applyFilters()">
-                </div>
-                <div class="filter-option">
-                    <span class="filter-label">Tipo</span>
-                    <select id="filter-tipo" onchange="applyFilters()">
-                        <option value="todos">Todos</option>
-                        <option value="piso">Piso</option>
-                        <option value="casa">Casa</option>
-                    </select>
-                </div>
-            </div>
-            <button class="btn-clear" onclick="clearFilters()">Limpiar Filtros</button>
-        </aside>
+        <aside class="sidebar-filtros">
+    
+    <div class="sidebar-header">
+        <h3>Filtros</h3>
+    </div>
+
+    <div class="filtro-grupo">
+        <label>Zona</label>
+        <div class="input-wrapper">
+            <span class="icono-input">📍</span>
+            <select id="filter-zona" onchange="applyFilters()">
+                <option value="todas">Todas</option>
+                <option value="centro">Centro</option>
+                <option value="norte">Norte</option>
+                <option value="sur">Sur</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="filtro-grupo">
+        <label>Precio Máx</label>
+        <div class="input-wrapper">
+            <span class="icono-input">€</span>
+            <input type="number" id="filter-precio" placeholder="Ej: 1000" oninput="applyFilters()">
+        </div>
+    </div>
+
+    <div class="filtro-grupo">
+        <label>Tipo</label>
+        <div class="input-wrapper">
+            <span class="icono-input">🏠</span>
+            <select id="filter-tipo" onchange="applyFilters()">
+                <option value="todos">Todos</option>
+                <option value="piso">Piso</option>
+                <option value="casa">Casa</option>
+                <option value="estudio">Estudio</option>
+            </select>
+        </div>
+    </div>
+
+    <button class="btn-limpiar" onclick="clearFilters()">
+        Limpiar Filtros
+    </button>
+
+</aside>
 
         <main><!--LOS PISOS Y CASAS-->
             <div class="property-card" data-zona="centro" data-precio="850" data-tipo="piso">
                 <div class="marco-fotos">
-                    <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">🡨</button>
+                    <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
                      <!-- Botón para mover a la IZQUIERDA -->
                      <div class="galeria">
                          <img src="../images/piso1.png" alt="Foto 1">
                          <img src="../images/piso1.2.png" alt="Foto 2">
                      </div>
-                    <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">🡪</button>
+                    <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
                      <!-- Botón para mover a la derecha -->
                 </div>
                 <div class="card-info">
                     <div class="price">850€</div>
                     <div class="location">Centro, C/ Mayor</div>
-                    
                     <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">
                         Ver detalles
                     </span>
@@ -90,7 +105,7 @@
                 </div>
             </div>
 
-            <div class="property-card" data-zona="norte" data-precio="1200" data-tipo="atico">
+            <div class="property-card" data-zona="norte" data-precio="1200" data-tipo="piso">
                 <div class="marco-fotos">
                     <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
                      <div class="galeria">
@@ -124,7 +139,7 @@
                 <div class="card-info">
                     <div class="price">700€</div>
                     <div class="location">Estudio Norte</div>
-                    
+
                     <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">
                         Ver detalles
                     </span>
@@ -134,7 +149,7 @@
                     </div>
                 </div>
             </div>
-            <div class="property-card" data-zona="casco antiguo" data-precio="950" data-tipo="Piso">
+            <div class="property-card" data-zona="sur" data-precio="950" data-tipo="Piso">
                 <div class="marco-fotos">
                     <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
                     <div class="galeria">
@@ -157,7 +172,7 @@
                 </div>
             </div>
 
-            <div class="property-card">
+            <div class="property-card" data-zona="sur" data-precio="1.500" data-tipo="Casa">
                 <div class="marco-fotos">
                     <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
                     <div class="galeria">
@@ -179,7 +194,7 @@
                 </div>
             </div>
 
-            <div class="property-card">
+            <div class="property-card" data-zona="centro" data-precio="1.500" data-tipo="Casa">
                 <div class="marco-fotos">
                     <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
                     <div class="galeria">
@@ -196,12 +211,14 @@
                     </span>
 
                     <div class="features">
+                    <div class="features">
                         <span>1 Hab</span><span>Dúplex</span>
                     </div>
                 </div>
             </div>
+            </div>
 
-            <div class="property-card">
+            <div class="property-card" data-zona="centro" data-precio="1.100" data-tipo="Piso">
                 <div class="marco-fotos">
                     <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
                     <div class="galeria">
@@ -223,8 +240,8 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="property-card">
+
+            <div class="property-card" data-zona="norte" data-precio="1.100" data-tipo="Piso">
                 <div class="marco-fotos">
                     <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
                     <div class="galeria">
@@ -246,8 +263,7 @@
                     </div>
                 </div>
             </div>
-
-            <div class="property-card">
+            <div class="property-card" data-zona="norte" data-precio="1.100" data-tipo="Casa">
                 <div class="marco-fotos">
                     <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
                     <div class="galeria">
@@ -269,7 +285,7 @@
                     </div>
                 </div>
             </div>
-            <div class="property-card" data-zona="centro" data-precio="950" data-tipo="estudio">
+            <div class="property-card" data-zona="Sur" data-precio="950" data-tipo="Casa">
                 <div class="marco-fotos">
                     <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
                     <div class="galeria">
@@ -289,7 +305,7 @@
                 </div>
             </div>
 
-            <div class="property-card" data-zona="sur" data-precio="1500" data-tipo="casa">
+            <div class="property-card" data-zona="centro" data-precio="1500" data-tipo="casa">
                 <div class="marco-fotos">
                     <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
                     <div class="galeria">
@@ -369,7 +385,7 @@
                 </div>
             </div>
 
-            <div class="property-card" data-zona="norte" data-precio="900" data-tipo="atico">
+            <div class="property-card" data-zona="norte" data-precio="900" data-tipo="piso">
                 <div class="marco-fotos">
                     <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
                     <div class="galeria">
@@ -389,7 +405,7 @@
                 </div>
             </div>
 
-            <div class="property-card" data-zona="centro" data-precio="750" data-tipo="estudio">
+            <div class="property-card" data-zona="sur" data-precio="750" data-tipo="estudio">
                 <div class="marco-fotos">
                     <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
                     <div class="galeria">
@@ -409,7 +425,7 @@
                 </div>
             </div>
 
-            <div class="property-card" data-zona="sur" data-precio="820" data-tipo="piso">
+            <div class="property-card" data-zona="norte" data-precio="820" data-tipo="piso">
                 <div class="marco-fotos">
                     <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
                     <div class="galeria">
@@ -449,7 +465,7 @@
                 </div>
             </div>
 
-            <div class="property-card" data-zona="centro" data-precio="880" data-tipo="piso">
+            <div class="property-card" data-zona="sur" data-precio="880" data-tipo="piso">
                 <div class="marco-fotos">
                     <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
                     <div class="galeria">
@@ -494,7 +510,37 @@
             </main>
 
         <footer>
-            Footer Inmobiliaria
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Kasa</h3>
+                    <p>Calidad y confianza en tu búsqueda.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Navegación</h3>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 5px;">
+                        <a href="#">Inicio</a>
+                        <a href="#">Alquileres</a>
+                        <a href="#login-owner">Propietarios</a>
+                        <a href="#login">Cuenta</a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Contacto</h3>
+                    <p>📧 info@kasa.com | 📞 +34 900 123 456</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon">📷</a>
+                        <a href="#" class="social-icon">🐦</a>
+                        <a href="#" class="social-icon">📘</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Inmobiliaria Kasa.</p>
+                <div style="display:flex; gap:10px;">
+                     <a href="#">Legal</a>
+                     <a href="#">Privacidad</a>
+                </div>
+            </div>
         </footer>
     </div>
 
