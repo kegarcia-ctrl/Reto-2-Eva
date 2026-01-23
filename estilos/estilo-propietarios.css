@@ -19,12 +19,12 @@ header {
 .logo-box {
     width: 180px;
     height: 100px;
-    background-color: #ffffff;
-    border: 2px solid #813636;
+    background-color: #e3e8ef;
+    border: 2px solid #e3e8ef;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: bold;
+    font-weight: 600;
     color: #2c3e50;
 }
 .logo-box img {
@@ -55,7 +55,7 @@ main {
 /* Sección derecha del header */
 .header-right span {
     margin-right: 15px;
-    font-weight: bold;
+    font-weight: 600;
     color: #2c3e50;
 }
 
@@ -188,7 +188,7 @@ main {
     min-height: 200px;
     background: #ddd;
     color: #666;
-    font-weight: bold;
+    font-weight: 600;
     cursor: pointer;
     transition: background 0.3s;
 }
