@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inmobiliaria Kasa</title>
+    <link rel="stylesheet" href="../estilos/estiloweb.css">
+</head>
+
+<body>
+
+    <div class="layout-grid">
+
+        <header>
+            <div class="logo-box">
+                <img src="../images/logoDefinitivo.png" alt="Logo">
+            </div>
+
+            <div class="header-right">
+                <!-- Botón Soy Propietario abre su propio modal -->
+                <button class="btn-prop" onclick="window.location.href='#login-owner'">Soy Propietario</button>
+
+                <button class="circle-btn flag-btn" onclick="toggleLangModal()">
+                    <img src="../images/ESflag.jpg" alt="ES">
+                </button>
+
+                <!-- Botón Cuenta con menú desplegable -->
+                <div class="dropdown" id="accountDropdown">
+                    <div class="circle-btn" style="display:flex; align-items:center; justify-content:center;">
+                        Cuenta
+                    </div>
+                    <div class="dropdown-content small-menu" id="accountMenu">
+                        <a href="#perfil">Perfil</a>
+                        <a href="#" onclick="cerrarSesion(); return false;">Cerrar sesión</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <aside class="sidebar-filtros">
+
+            <div class="sidebar-header">
+                <h3>Filtros</h3>
+            </div>
+
+            <div class="filtro-grupo">
+                <label>Zona</label>
+                <div class="input-wrapper">
+                    <span class="icono-input">📍</span>
+                    <select id="filter-zona" onchange="applyFilters()">
+                        <option value="todas">Todas</option>
+                        <option value="centro">Centro</option>
+                        <option value="norte">Norte</option>
+                        <option value="sur">Sur</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="filtro-grupo">
+                <label>Precio Máx</label>
+                <div class="input-wrapper">
+                    <span class="icono-input">€</span>
+                    <input type="number" id="filter-precio" placeholder="Ej: 1000" oninput="applyFilters()">
+                </div>
+            </div>
+
+            <div class="filtro-grupo">
+                <label>Tipo</label>
+                <div class="input-wrapper">
+                    <span class="icono-input">🏠</span>
+                    <select id="filter-tipo" onchange="applyFilters()">
+                        <option value="todos">Todos</option>
+                        <option value="piso">Piso</option>
+                        <option value="casa">Casa</option>
+                        <option value="estudio">Estudio</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn-limpiar" onclick="clearFilters()">
+                Limpiar Filtros
+            </button>
+
+        </aside>
+
+
+        <!--LOS PISOS Y CASAS-->
+        <main>
+            <div class="property-card" data-zona="sur" data-precio="980" data-tipo="piso">
+                <div class="marco-fotos">
+                    <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+                    <div class="galeria">
+                        <img src="../images/piso21.png" alt="Cocina Moderna Nueva">
+                        <img src="../images/piso21.1.png" alt="Baño Ducha Italiana">
+                        <img src="../images/piso21.2.png" alt="Habitación Luminosa">
+                    </div>
+                    <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
+                    <button class="btn-reservar" onclick="window.location.href='reserva.html'">
+                        Reservar
+                    </button>
+                </div>
+                <div class="card-info">
+                    <div class="price">980€</div>
+                    <div class="location">Reformado a estrenar</div>
+                    <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">Ver detalles</span>
+                    <div class="features">
+                        <span>3 Hab</span><span>95m²</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Kasa</h3>
+                <p>Calidad y confianza en tu búsqueda.</p>
+            </div>
+            <div class="footer-column">
+                <h3>Navegación</h3>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 5px;">
+                    <a href="#">Inicio</a>
+                    <a href="#">Alquileres</a>
+                    <a href="#login-owner">Propietarios</a>
+                    <a href="#login">Cuenta</a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Contacto</h3>
+                <p>📧 info@kasa.com | 📞 +34 900 123 456</p>
+                <div class="social-links">
+                    <a href="#" class="social-icon">📷</a>
+                    <a href="#" class="social-icon">🐦</a>
+                    <a href="#" class="social-icon">📘</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Inmobiliaria Kasa.</p>
+            <div style="display:flex; gap:10px;">
+                <a href="#">Legal</a>
+                <a href="#">Privacidad</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal de Propiedad -->
+    <div id="propertyModal" class="modal-fondo">
+        <div class="modal-contenido-grande">
+
+            <div class="modal-col-izq">
+                <button class="btn-flotante izq" onclick="moverGaleriaModal(-1)"
+                    style="left:15px; background:rgba(255,255,255,0.3); color:white; border:none;">❮</button>
+
+                <div id="modal-img-container" style="width:100%; height:100%; display:flex; overflow:hidden;">
+                </div>
+
+                <button class="btn-flotante der" onclick="moverGaleriaModal(1)"
+                    style="right:15px; background:rgba(255,255,255,0.3); color:white; border:none;">❯</button>
+            </div>
+
+            <div class="modal-col-der">
+                <span class="cerrar-modal-x" onclick="closeModal()">×</span>
+
+                <h2 id="modal-title" style="color:#2c3e50; font-size:26px; margin-bottom:5px;">Título</h2>
+                <div id="modal-location" style="color:#777; margin-bottom:15px;">Ubicación</div>
+
+                <div id="modal-price" style="font-size:32px; font-weight:bold; color:#17a2b8; margin-bottom:20px;">0€
+                </div>
+
+                <div id="modal-features" class="features" style="border:none; padding:0; margin-bottom:20px;"></div>
+
+                <div style="flex:1; overflow-y:auto; margin-bottom:20px;">
+                    <p id="modal-description-text" style="color:#555; line-height:1.6;">
+                        Descripción de la propiedad...
+                    </p>
+                </div>
+
+                <div style="display:flex; gap:10px;">
+                    <button onclick="toggleCalendario()"
+                        style="flex:1; padding:12px; background:#2c3e50; color:white; border:none; border-radius:6px; cursor:pointer;">Ver
+                        Disponibilidad</button>
+                    <button onclick="window.location.href='reserva.html'"
+                        style="flex:1; padding:12px; background:#17a2b8; color:white; border:none; border-radius:6px; cursor:pointer;">Reservar</button>
+                </div>
+
+                <div id="calendario-reserva" class="calendario-reserva" style="display: none;">
+                    <div class="calendario-header">
+                        <button onclick="cambiarMes(-1)" style="cursor:pointer;">❮</button>
+                        <span id="mes-actual">Enero 2026</span>
+                        <button onclick="cambiarMes(1)" style="cursor:pointer;">❯</button>
+                    </div>
+                    <div class="grid-dias" id="grid-dias"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Idioma -->
+    <div id="langModal" class="lang-modal-overlay" onclick="closeLangModal(event)">
+        <div class="lang-modal-content">
+            <div class="lang-modal-header">
+                <h3>Selecciona tu idioma</h3>
+                <button class="close-modal-btn" onclick="toggleLangModal()">×</button>
+            </div>
+            <div class="lang-list">
+                <div class="lang-option active">
+                    <img src="../images/ESflag.jpg" class="lang-flag" alt="ES">
+                    <span>Español</span>
+                    <span class="check-icon">✓</span>
+                </div>
+                <a href="webEN.html" class="lang-option">
+                    <img src="../images/UKflag.jpg" class="lang-flag" alt="UK">
+                    <span>English (UK)</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Login -->
+    <div id="login" class="modal-fondo">
+        <div class="modal-login-content">
+            <a href="#" class="cerrar">✕</a>
+            <h2>Iniciar sesión</h2>
+            <form onsubmit="event.preventDefault(); alert('Sesión iniciada correctamente'); window.location.href='#';">
+                <input type="email" name="email" placeholder="Correo" required>
+                <input type="password" name="password" placeholder="Contraseña" required>
+                <button type="submit">Entrar</button>
+            </form>
+            <p>¿No tienes cuenta? <a href="#registro">Crear cuenta</a></p>
+        </div>
+    </div>
+
+    <!-- Modal de Registro -->
+    <div id="registro" class="modal-fondo">
+        <div class="modal-login-content">
+            <a href="#" class="cerrar">✕</a>
+            <h2>Crear cuenta</h2>
+            <form
+                onsubmit="event.preventDefault(); alert('Cuenta creada correctamente. Ahora puedes iniciar sesión.'); window.location.href='#login';">
+                <input type="text" name="nombre" placeholder="Nombre" required>
+                <input type="email" name="email" placeholder="Correo" required>
+                <input type="password" name="password" placeholder="Contraseña" required>
+                <button type="submit">Registrarse</button>
+            </form>
+            <p>¿Ya tienes cuenta? <a href="#login">Iniciar sesión</a></p>
+        </div>
+    </div>
+
+    <!-- Modal de Login Propietario -->
+    <div id="login-owner" class="modal-fondo owner-modal">
+        <div class="modal-login-content">
+            <a href="#" class="cerrar">✕</a>
+            <h2 style="color: #2c3e50;">Acceso Propietarios</h2>
+            <form
+                onsubmit="event.preventDefault(); alert('Acceso concedido'); window.location.href='propietarioES.html';">
+                <input type="email" name="email" placeholder="Correo Corporativo" required>
+                <input type="password" name="password" placeholder="Contraseña" required>
+                <button type="submit">Acceder</button>
+            </form>
+            <p>Solo personal autorizado.</p>
+        </div>
+    </div>
+
+    <!--SCRIPT-->
+
+    <script>
+        // Lógica del Modal de Idioma
+        function toggleLangModal() {
+            const modal = document.getElementById('langModal');
+            modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        function closeLangModal(e) {
+            if (e.target.id === 'langModal') {
+                toggleLangModal();
+            }
+        }
+
+
+        // 1. FILTROS
+        function applyFilters() {
+            const zona = document.getElementById('filter-zona').value.toLowerCase();
+            const precioMax = parseFloat(document.getElementById('filter-precio').value) || Infinity;
+            const tipo = document.getElementById('filter-tipo').value.toLowerCase();
+
+            document.querySelectorAll('.property-card').forEach(card => {
+                const cZona = card.getAttribute('data-zona') || "";
+                const cPrecio = parseFloat(card.getAttribute('data-precio')) || 0;
+                const cTipo = card.getAttribute('data-tipo') || "";
+
+                let show = true;
+                if (zona !== 'todas' && cZona !== zona) show = false;
+                if (cPrecio > precioMax) show = false;
+                if (tipo !== 'todos' && cTipo !== tipo) show = false;
+
+                card.style.display = show ? 'flex' : 'none';
+            });
+        }
+
+        function clearFilters() {
+            document.getElementById('filter-zona').value = 'todas';
+            document.getElementById('filter-precio').value = '';
+            document.getElementById('filter-tipo').value = 'todos';
+            applyFilters();
+        }
+
+        // 2. GALERIA DE LAS TARJETAS (Pequeña)
+        function moverGaleria(e, btn, dir) {
+            e.stopPropagation(); // Evita que se abra el modal al hacer click en flechas
+            const container = btn.parentElement.querySelector('.galeria');
+            container.scrollBy({ left: dir * 300, behavior: 'smooth' });
+        }
+
+        // 3. LOGICA DEL MODAL DE DETALLES
+        const modal = document.getElementById("propertyModal");
+
+        function openModal(card) {
+            // Sacar datos de la tarjeta clickeada
+            const title = card.querySelector('.location').innerText;
+            const price = card.querySelector('.price').innerText;
+            const features = card.querySelector('.features').innerHTML;
+
+            // Llenar el modal
+            document.getElementById("modal-title").innerText = title;
+            document.getElementById("modal-location").innerText = title; // Repetimos titulo en location por simplicidad
+            document.getElementById("modal-price").innerText = price;
+            document.getElementById("modal-features").innerHTML = features;
+
+            document.getElementById("modal-description-text").innerText =
+                `Esta magnifica propiedad en ${title} cuenta con todas las comodidades. ` +
+                `Por un precio de ${price}, es una oportunidad única. Contáctanos para visitarla.`;
+
+            // Clonar imágenes
+            const modalImgs = document.getElementById("modal-img-container");
+            modalImgs.innerHTML = ''; // Limpiar anteriores
+            const images = card.querySelectorAll('.galeria img');
+            images.forEach(img => {
+                let clone = img.cloneNode();
+                clone.style.minWidth = "100%"; // Asegurar que ocupen todo el modal
+                modalImgs.appendChild(clone);
+            });
+
+            // Mostrar modal
+            modal.style.display = "flex";
+            document.body.style.overflow = "hidden"; // Bloquear scroll del fondo
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+
+        // Cerrar si click fuera del contenido
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // Galería dentro del modal
+        function moverGaleriaModal(dir) {
+            const container = document.getElementById("modal-img-container");
+            const w = container.offsetWidth;
+            container.scrollBy({ left: dir * w, behavior: 'smooth' });
+        }
+
+        // 4. CALENDARIO SIMPLE
+        let currentMonth = 0; // Enero
+        function toggleCalendario() {
+            const cal = document.getElementById("calendario-reserva");
+            cal.style.display = (cal.style.display === "none") ? "block" : "none";
+            if (cal.style.display === "block") renderCalendario();
+        }
+
+        function renderCalendario() {
+            const grid = document.getElementById("grid-dias");
+            grid.innerHTML = "";
+            // Generar 30 dias dummy
+            for (let i = 1; i <= 30; i++) {
+                let d = document.createElement("div");
+                d.className = "dia";
+                d.innerText = i;
+                if (i % 5 === 0) d.classList.add("ocupado"); // Dummy ocupados
+                else {
+                    d.onclick = function () { this.classList.toggle("seleccionado"); }
+                }
+                grid.appendChild(d);
+            }
+        }
+        function cambiarMes(d) {
+            // Solo cambia el texto por efecto visual
+            const meses = ["Ene", "Feb", "Mar", "Abr"];
+            let m = document.getElementById("mes-actual");
+            m.innerText = "Mes siguiente...";
+        }
+
+        // Función para cerrar sesión
+        function cerrarSesion() {
+            if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+                alert('Sesión cerrada correctamente');
+                window.location.href = 'webES.html'; // Redirige a la página principal
+            }
+        }
+
+        // Control mejorado del menú desplegable
+        let menuTimeout;
+        const dropdown = document.getElementById('accountDropdown');
+        const menu = document.getElementById('accountMenu');
+
+        if (dropdown && menu) {
+            // Mostrar menú al pasar el ratón por el dropdown
+            dropdown.addEventListener('mouseenter', function () {
+                clearTimeout(menuTimeout);
+                menu.classList.add('show');
+            });
+
+            // Ocultar menú con delay al salir
+            dropdown.addEventListener('mouseleave', function () {
+                menuTimeout = setTimeout(function () {
+                    menu.classList.remove('show');
+                }, 300); // 300ms de delay antes de cerrar
+            });
+        }
+
+    </script>
+</body>
+
+</html>
