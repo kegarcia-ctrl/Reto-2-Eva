@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Propietario - Kasa</title>
+    <link rel="stylesheet" href="../estilos/estilo-propietarios.css">
+</head>
+<body class="modo-propietario">
+    <div class="layout-grid">
+        <header class="header-panel">
+            <div class="logo-box">
+                <img src="../images/prueba.png" alt="Logo">
+            </div>
+            <div class="main-title-pill propietario">
+                PANEL PROPIETARIO
+            </div>
+            <div class="header-right">
+                <span>Bienvenido, Propietario</span>
+                <button class="btn-prop btn-logout" onclick="window.location.href='webES.html'">Cerrar Sesión</button>
+            </div>
+        </header>
+
+        <main>
+            <div class="property-card" id="prop1">
+                <div class="marco-fotos">
+                    <img src="../images/piso1.png" alt="Propiedad 1">
+                </div>
+                <div class="card-info">
+                    <div class="price" contenteditable="true">850€</div>
+                    <div class="location" contenteditable="true">Centro, C/ Mayor</div>
+                    <div class="features"><span>2 Hab</span><span>65m²</span></div>
+                </div>
+                <div class="admin-controls">
+                    <button class="admin-btn btn-edit" onclick="alert('Cambios guardados')">Guardar</button>
+                    <button class="admin-btn btn-hide" onclick="toggleVisibility('prop1')">Ocultar/Ver</button>
+                    <button class="admin-btn btn-delete" onclick="deleteProp('prop1')">Eliminar</button>
+                </div>
+            </div>
+            
+            <div class="property-card">
+                <div class="add-card-content" onclick="alert('Añadir nueva propiedad')">
+                    + AÑADIR PROPIEDAD
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function deleteProp(id) {
+            if (confirm("¿Seguro que quieres eliminar esta publicación?")) {
+                const element = document.getElementById(id);
+                if(element) element.remove();
+            }
+        }
+        function toggleVisibility(id) {
+            const el = document.getElementById(id);
+            if (el.style.opacity === '0.5') {
+                el.style.opacity = '1';
+                alert('Publicación ahora es visible para todos');
+            } else {
+                el.style.opacity = '0.5';
+                alert('Publicación oculta (Borrador)');
+            }
+        }
+    </script>
+</body>
+</html>
