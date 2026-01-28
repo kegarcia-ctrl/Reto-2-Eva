@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reservar - Inmobiliaria Kasa</title>
+    <link rel="stylesheet" href="estilos/estiloweb.css">
+    <link rel="stylesheet" href="estilos/estiloRESERVA.css">
+</head>
+
+<body>
+    <div class="booking-container">
+        <h1 style="color: #2c3e50; margin-bottom: 20px; text-align: center;">Confirmar Reserva</h1>
+        
+        <div id="property-preview" style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #eee; display: none;">
+            <h3 id="prop-title" style="margin: 0; color: #17a2b8;">Cargando propiedad...</h3>
+            <p id="prop-details" style="margin: 5px 0; font-size: 14px; color: #666;"></p>
+        </div>
+
+        <p style="text-align: center; margin-bottom: 30px; color: #666;">Completa tus datos para finalizar el alquiler.</p>
+
+        <form id="bookingForm" onsubmit="submitBooking(event)">
+            <div class="form-group">
+                <label>Nombre Completo</label>
+                <input type="text" id="user-name" required placeholder="Tu nombre">
+            </div>
+            <div class="form-group">
+                <label>Correo Electrónico</label>
+                <input type="email" id="user-email" required placeholder="email@ejemplo.com">
+            </div>
+            <div class="form-group">
+                <label>Fecha de entrada</label>
+                <input type="date" id="fecha-entrada" required>
+            </div>
+            <div class="form-group">
+                <label>Fecha de salida</label>
+                <input type="date" id="fecha-salida" required>
+            </div>
+
+            <button type="submit" class="btn-confirm">Pagar y Reservar</button>
+        </form>
+
+        <a href="web.html" class="back-link">← Volver al catálogo</a>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080/api';
+        const urlParams = new URLSearchParams(window.location.search);
+        const propId = urlParams.get('id');
+        let currentUserId = null;
+        let propertyPrice = 0;
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (!propId) {
+                alert("No se ha seleccionado ninguna propiedad.");
+                window.location.href = 'web.html';
+                return;
+            }
+
+            const session = JSON.parse(localStorage.getItem('kasa_session'));
+            if (session && session.type === 'user') {
+                currentUserId = session.data.id;
+                document.getElementById('user-name').value = session.data.nombre || '';
+                document.getElementById('user-email').value = session.data.email || '';
+            }
+
+            try {
+                const resp = await fetch(`${API_BASE}/properties/${propId}`);
+                if (resp.ok) {
+                    const p = await resp.json();
+                    propertyPrice = p.precio;
+                    document.getElementById('prop-title').innerText = p.titulo;
+                    document.getElementById('prop-details').innerText = `${p.precio}€/mes - ${p.habitaciones} Hab - ${p.areaM2}m²`;
+                    document.getElementById('property-preview').style.display = 'block';
+                }
+            } catch (err) {
+                console.warn("No se pudo cargar la información de la propiedad.");
+            }
+        });
+
+        async function submitBooking(event) {
+            event.preventDefault();
+            
+            if (!currentUserId) {
+                alert("Debes iniciar sesión para realizar una reserva.");
+                window.location.hash = '#login';
+                return;
+            }
+
+            const data = {
+                propiedadId: parseInt(propId),
+                usuarioId: currentUserId,
+                fechaEntrada: document.getElementById('fecha-entrada').value,
+                fechaSalida: document.getElementById('fecha-salida').value,
+                precioTotal: propertyPrice, // Simplificado para el ejemplo
+                estado: 'PENDIENTE'
+            };
+
+            try {
+                const resp = await fetch(`${API_BASE}/bookings`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
+                if (resp.ok) {
+                    alert('¡Reserva creada con éxito! El propietario se pondrá en contacto contigo.');
+                    window.location.href = 'user.html';
+                } else {
+                    alert('Error al crear la reserva. Revisa las fechas.');
+                }
+            } catch (err) {
+                alert('Error de conexión con el servidor.');
+            }
+        }
+    </script>
+</body>
+
+</html>

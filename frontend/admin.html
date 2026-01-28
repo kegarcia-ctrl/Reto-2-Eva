@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración Total - Kasa</title>
+    <link rel="stylesheet" href="estilos/estilo-propietarios.css">
+    <style>
+        :root {
+            --sidebar-width: 250px;
+            --admin-red: #e74c3c;
+            --admin-dark: #2c3e50;
+        }
+
+        body.modo-admin {
+            display: flex;
+            margin: 0;
+            height: 100vh;
+            background-color: #f4f7f6;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--admin-dark);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-header img {
+            width: 120px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-menu li {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-left: 4px solid transparent;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-menu li:hover, .sidebar-menu li.active {
+            background-color: rgba(255,255,255,0.1);
+            border-left-color: var(--admin-red);
+        }
+
+        .admin-layout-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        header.admin-header {
+            background: white;
+            padding: 10px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            z-index: 10;
+        }
+
+        .admin-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .data-table-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            overflow: hidden;
+            border: 1px solid #eee;
+        }
+
+        table.admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .admin-table th {
+            background-color: #f8f9fa;
+            padding: 15px;
+            font-weight: 700;
+            color: #475569;
+            border-bottom: 2px solid #eee;
+        }
+
+        .admin-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            color: #2c3e50;
+        }
+
+        .admin-table tr:hover {
+            background-color: #fcfdfe;
+        }
+
+        .badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .badge-active { background: #dcfce7; color: #166534; }
+        .badge-inactive { background: #fee2e2; color: #991b1b; }
+
+        .btn-action {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-right: 5px;
+        }
+
+        .btn-del { background: #fee2e2; color: #991b1b; }
+        .btn-del:hover { background: #fecaca; }
+
+        .section-title {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title h2 { margin: 0; color: var(--admin-dark); }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255,255,255,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body class="modo-admin">
+    <div class="loading-overlay" id="loader">
+        <div class="loading-spinner">Procesando...</div>
+    </div>
+
+    <!-- Sidebar con las 15 Tablas -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="images/logoDefinitivo.png" alt="Kasa Admin">
+            <div style="font-weight: bold; font-size: 0.8rem; letter-spacing: 1px; color: var(--admin-red);">CONTROL TOTAL</div>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="active" onclick="switchSection('properties')">🏠 Propiedades</li>
+            <li onclick="switchSection('users')">👤 Usuarios</li>
+            <li onclick="switchSection('owners')">🏢 Propietarios</li>
+            <li onclick="switchSection('admins')">🔑 Administradores</li>
+            <li onclick="switchSection('bookings')">📅 Reservas</li>
+            <li onclick="switchSection('payments')">💳 Pagos</li>
+            <li onclick="switchSection('cities')">📍 Ciudades</li>
+            <li onclick="switchSection('types')">🏘️ Tipos de Propiedad</li>
+            <li onclick="switchSection('images')">🖼️ Imágenes</li>
+            <li onclick="switchSection('services')">🛠️ Servicios</li>
+        </ul>
+        <div style="margin-top: auto; padding: 20px;">
+            <button class="btn-logout" onclick="cerrarSesion()" style="width: 100%; padding: 10px;">Cerrar Sesión</button>
+        </div>
+    </aside>
+
+    <div class="admin-layout-main">
+        <header class="admin-header">
+            <div class="breadcrumb" id="current-section-path">Admin / Propiedades</div>
+            <div class="header-right">
+                <span id="admin-name">Bienvenido, Super Administrador</span>
+            </div>
+        </header>
+
+        <main class="admin-content">
+            <div class="section-title">
+                <h2 id="section-header-title">Listado de Propiedades</h2>
+                <div id="section-actions">
+                    <!-- Botones dinámicos aquí -->
+                </div>
+            </div>
+
+            <div class="data-table-container" id="main-data-viewer">
+                <!-- Tablas o Cards cargadas dinámicamente -->
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080/api';
+        let currentTab = 'properties';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const session = JSON.parse(localStorage.getItem('kasa_session'));
+            if (!session || session.type !== 'admin') {
+                window.location.href = 'web.html#login-owner';
+                return;
+            }
+            if (session.data && session.data.email) {
+                document.getElementById('admin-name').innerText = "Bienvenido, " + (session.data.email);
+            }
+            switchSection('properties');
+            
+            // Auto-actualización cada 30 segundos
+            setInterval(() => {
+                console.log("Auto-actualizando tabla: " + currentTab);
+                loadData(currentTab);
+            }, 30000); 
+        });
+
+        async function switchSection(section) {
+            currentTab = section;
+            
+            // UI Feedback
+            document.querySelectorAll('.sidebar-menu li').forEach(li => li.classList.remove('active'));
+            event.currentTarget?.classList?.add('active');
+            
+            const titles = {
+                properties: "Propiedades", users: "Usuarios", owners: "Propietarios", 
+                admins: "Administradores", bookings: "Reservas", payments: "Pagos",
+                cities: "Ciudades", types: "Tipos de Propiedad",
+                images: "Imágenes de Propiedades", services: "Catálogo de Servicios"
+            };
+            
+            document.getElementById('section-header-title').innerText = "Gestión de " + titles[section];
+            document.getElementById('current-section-path').innerText = "Admin / " + titles[section];
+            
+            loadData(section);
+        }
+
+        async function loadData(section) {
+            const container = document.getElementById('main-data-viewer');
+            container.innerHTML = '<div style="padding: 40px; text-align: center;">Cargando datos...</div>';
+            
+            let endpoint = '';
+            if (['properties', 'users', 'owners', 'bookings'].includes(section)) {
+                endpoint = `/${section}`;
+            } else {
+                endpoint = `/admins/data/${section}`;
+            }
+
+            try {
+                const resp = await fetch(`${API_BASE}${endpoint}`);
+                const data = await resp.json();
+                renderTable(section, data);
+            } catch (err) {
+                container.innerHTML = `<div style="padding: 40px; color: red;">Error al conectar con la tabla ${section}.</div>`;
+            }
+        }
+
+        function renderTable(section, data) {
+            const container = document.getElementById('main-data-viewer');
+            if (!data || data.length === 0) {
+                container.innerHTML = '<div style="padding: 40px; text-align: center;">No hay registros en esta tabla.</div>';
+                return;
+            }
+
+            let html = '<table class="admin-table"><thead><tr>';
+            const keys = Object.keys(data[0]).filter(k => typeof data[0][k] !== 'object' || data[0][k] === null);
+            
+            keys.forEach(k => { html += `<th>${k.toUpperCase()}</th>`; });
+            html += '<th>ACCIONES</th></tr></thead><tbody>';
+
+            data.forEach(row => {
+                html += '<tr>';
+                keys.forEach(k => {
+                    let val = row[k];
+                    if (val === true) val = '<span class="badge badge-active">Sí</span>';
+                    else if (val === false) val = '<span class="badge badge-inactive">No</span>';
+                    html += `<td>${val ?? '-'}</td>`;
+                });
+                html += `<td>
+                    <button class="btn-action btn-del" onclick="deleteItem('${section}', ${row.id})">Borrar</button>
+                </td></tr>`;
+            });
+
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        async function deleteItem(section, id) {
+            if (!confirm(`¿Estás seguro de que quieres eliminar este registro de la tabla ${section}?`)) return;
+            
+            let endpoint = '';
+            if (['properties', 'users', 'owners', 'bookings'].includes(section)) {
+                endpoint = `/${section}/${id}`;
+            } else {
+                endpoint = `/admins/data/${section}/${id}`;
+            }
+
+            try {
+                document.getElementById('loader').style.display = 'flex';
+                const resp = await fetch(`${API_BASE}${endpoint}`, { method: 'DELETE' });
+                if (resp.ok) {
+                    alert('Eliminado con éxito.');
+                    loadData(section);
+                } else {
+                    alert('Error al eliminar. Puede que tenga datos relacionados.');
+                }
+            } catch (err) {
+                alert('Error de conexión.');
+            } finally {
+                document.getElementById('loader').style.display = 'none';
+            }
+        }
+
+        function cerrarSesion() {
+            if (confirm("¿Seguro que quieres salir del panel de control?")) {
+                localStorage.removeItem('kasa_session');
+                window.location.href = 'web.html';
+            }
+        }
+    </script>
+</body>
+</html>
