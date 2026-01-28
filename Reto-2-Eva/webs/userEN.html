@@ -88,32 +88,432 @@
 
 
         <!--LOS PISOS Y CASAS-->
-        <main>
-            <div class="property-card" data-zona="sur" data-precio="980" data-tipo="piso">
-                <div class="marco-fotos">
-                    <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
-                    <div class="galeria">
-                        <img src="../images/piso21.png" alt="Modern new kitchen">
-                        <img src="../images/piso21.1.png" alt="Italian-style shower bathroom">
-                        <img src="../images/piso21.2.png" alt="Bright bedroom">
-                    </div>
-                    <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
-                    <button class="btn-reservar" onclick="window.location.href='reserva.html'">
-                        Book now
-                    </button>
-                </div>
-                <div class="card-info">
-                    <div class="price">€980</div>
-                    <div class="location">Brand new renovated</div>
-                    <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">View details</span>
-                    <div class="features">
-                        <span>3 Beds</span><span>95m²</span>
-                    </div>
-                </div>
-            </div>
-        </main>
+        <main> 
+    <div class="property-card" data-zona="centro" data-precio="850" data-tipo="piso">
+        <div class="marco-fotos">
+            <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+             <div class="galeria">
+                 <img src="../images/piso1.png" alt="Photo 1">
+                 <img src="../images/piso1.2.png" alt="Photo 2">
+             </div>
+            <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
+             </div>
+        <div class="card-info">
+            <div class="price">850€</div>
+            <div class="location">City Center, Main St.</div>
+            <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">
+                View Details
+            </span>
 
+            <div class="features">
+                <span>2 Bed</span><span>65m²</span>
+            </div>
+        </div>
     </div>
+
+    <div class="property-card" data-zona="norte" data-precio="1200" data-tipo="piso">
+        <div class="marco-fotos">
+            <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+             <div class="galeria">
+                 <img src="../images/piso2.png" alt="Photo 1">
+                 <img src="../images/piso2.1.png" alt="Photo 2">
+             </div>
+            <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
+        </div>
+        <div class="card-info">
+            <div class="price">1.200€</div>
+            <div class="location">Penthouse with Terrace</div>
+            <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">
+                View Details
+            </span>
+
+            <div class="features">
+                <span>3 Bed</span><span>90m²</span>
+            </div>
+        </div>
+    </div>
+
+     <div class="property-card" data-zona="norte" data-precio="700" data-tipo="estudio">
+        <div class="marco-fotos">
+            <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+            <div class="galeria">
+                 <img src="../images/piso3.png" alt="Photo 1">
+                 <img src="../images/piso3.1.png" alt="Photo 2">
+             </div>
+            <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
+        </div>
+        <div class="card-info">
+            <div class="price">700€</div>
+            <div class="location">North Studio</div>
+
+            <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">
+                View Details
+            </span>
+
+            <div class="features">
+                <span>1 Bed</span><span>40m²</span>
+            </div>
+        </div>
+    </div>
+    <div class="property-card" data-zona="sur" data-precio="950" data-tipo="Piso">
+        <div class="marco-fotos">
+            <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+            <div class="galeria">
+                 <img src="../images/piso4.png" alt="Photo 1">
+                 <img src="../images/piso4.1.png" alt="Photo 2">
+             </div>
+            <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
+        </div>
+        <div class="card-info">
+            <div class="price">950€</div>
+            <div class="location">Old Town</div>
+            
+            <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">
+                View Details
+            </span>
+
+            <div class="features">
+                <span>2 Bed</span><span>Exterior</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="property-card" data-zona="sur" data-precio="1.500" data-tipo="Casa">
+        <div class="marco-fotos">
+            <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+            <div class="galeria">
+                 <img src="../images/piso5.png" alt="Photo 1">
+                 <img src="../images/piso5.1.png" alt="Photo 2">
+             </div>
+            <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
+        </div>
+        <div class="card-info">
+            <div class="price">1.500€</div>
+            <div class="location">Townhouse with Garden</div>
+            <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">
+                View Details
+            </span>
+
+            <div class="features">
+                <span>4 Bed</span><span>Garage</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="property-card" data-zona="centro" data-precio="1.500" data-tipo="Casa">
+        <div class="marco-fotos">
+            <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+            <div class="galeria">
+                 <img src="../images/piso6ç.png" alt="Photo 1">
+                 <img src="../images/piso6.1.png" alt="Photo 2">
+             </div>
+            <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
+        </div>
+        <div class="card-info">
+            <div class="price">1.500€</div>
+            <div class="location">Industrial Loft</div>
+            <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">
+                View Details
+            </span>
+
+            <div class="features">
+                <span>1 Bed</span><span>Duplex</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="property-card" data-zona="centro" data-precio="1.100" data-tipo="Piso">
+        <div class="marco-fotos">
+            <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+            <div class="galeria">
+                 <img src="../images/piso7.png" alt="Photo 1">
+                 <img src="../images/piso7.1.png" alt="Photo 2">
+                 <img src="../images/piso7.2.png" alt="Photo 3">
+             </div>
+            <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
+        </div>
+        <div class="card-info">
+            <div class="price">1.100€</div>
+            <div class="location">Family Apartment</div>
+            <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">
+                View Details
+            </span>
+
+            <div class="features">
+                <span>3 Bed</span><span>2 Baths</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="property-card" data-zona="norte" data-precio="1.100" data-tipo="Piso">
+        <div class="marco-fotos">
+            <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+            <div class="galeria">
+                 <img src="../images/piso8.png" alt="Photo 1">
+                 <img src="../images/piso8.1.png" alt="Photo 2">
+                 <img src="../images/piso8.2.png" alt="Photo 3">
+             </div>
+            <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
+        </div>
+        <div class="card-info">
+            <div class="price">890€</div>
+            <div class="location">Near University</div>
+            <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">
+                View Details
+            </span>
+
+            <div class="features">
+                <span>2 Bed</span><span>Furnished</span>
+            </div>
+        </div>
+    </div>
+    <div class="property-card" data-zona="norte" data-precio="1.100" data-tipo="Casa">
+        <div class="marco-fotos">
+            <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+            <div class="galeria">
+                 <img src="../images/piso9.png" alt="Photo 1">
+                 <img src="../images/piso9.1.png" alt="Photo 2">
+                 <img src="../images/piso9.2.png" alt="Photo 3">
+             </div>
+            <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
+        </div>
+        <div class="card-info">
+            <div class="price">2.000€</div>
+            <div class="location">Luxury Villa</div>
+            <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">
+                View Details
+            </span>
+
+            <div class="features">
+                <span>5 Bed</span><span>Pool</span>
+            </div>
+        </div>
+    </div>
+    <div class="property-card" data-zona="Sur" data-precio="950" data-tipo="Casa">
+        <div class="marco-fotos">
+            <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+            <div class="galeria">
+                <img src="../images/piso10.png" alt="Loft Living Room">
+                <img src="../images/piso10.1.png" alt="Loft American Kitchen">
+                <img src="../images/piso10.2.png" alt="Loft Bedroom">
+            </div>
+            <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
+        </div>
+        <div class="card-info">
+            <div class="price">950€</div>
+            <div class="location">Industrial Loft City Center</div>
+            <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">View Details</span>
+            <div class="features">
+                <span>1 Bed</span><span>75m²</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="property-card" data-zona="centro" data-precio="1500" data-tipo="casa">
+        <div class="marco-fotos">
+            <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+            <div class="galeria">
+                <img src="../images/piso11.png" alt="Chalet Facade">
+                <img src="../images/piso11.1.png" alt="Bedroom">
+                <img src="../images/piso11.2.png" alt="Large Garden">
+            </div>
+            <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
+        </div>
+        <div class="card-info">
+            <div class="price">1.500€</div>
+            <div class="location">Chalet with South Garden</div>
+            <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">View Details</span>
+            <div class="features">
+                <span>4 Bed</span><span>180m²</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="property-card" data-zona="norte" data-precio="650" data-tipo="piso">
+        <div class="marco-fotos">
+            <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+            <div class="galeria">
+                <img src="../images/piso12.png" alt="Very Bright Living Room">
+                <img src="../images/piso12.2.png" alt="Master Bedroom">
+                <img src="../images/piso12.3.png" alt="Full Bathroom">
+            </div>
+            <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
+        </div>
+        <div class="card-info">
+            <div class="price">650€</div>
+            <div class="location">Bright Apartment North</div>
+            <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">View Details</span>
+            <div class="features">
+                <span>3 Bed</span><span>80m²</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="property-card" data-zona="centro" data-precio="2100" data-tipo="piso">
+        <div class="marco-fotos">
+            <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+            <div class="galeria">
+                <img src="../images/piso13.png" alt="Panoramic Views">
+                <img src="../images/piso13.1.png" alt="Designer Living Room">
+                <img src="../images/piso13.2.png" alt="Kitchen with Island">
+            </div>
+            <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
+        </div>
+        <div class="card-info">
+            <div class="price">2.100€</div>
+            <div class="location">Premium Apartment</div>
+            <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">View Details</span>
+            <div class="features">
+                <span>3 Bed</span><span>120m²</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="property-card" data-zona="sur" data-precio="1100" data-tipo="casa">
+        <div class="marco-fotos">
+            <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+            <div class="galeria">
+                <img src="../images/piso14.png" alt="Townhouse Entrance">
+                <img src="../images/piso14.1.png" alt="Backyard">
+                <img src="../images/piso14.2.png" alt="Living Dining Room">
+            </div>
+            <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
+        </div>
+        <div class="card-info">
+            <div class="price">1.100€</div>
+            <div class="location">Residential Townhouse</div>
+            <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">View Details</span>
+            <div class="features">
+                <span>3 Bed</span><span>110m²</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="property-card" data-zona="norte" data-precio="900" data-tipo="piso">
+        <div class="marco-fotos">
+            <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+            <div class="galeria">
+                <video src="../images/piso15.mp4" autoplay loop muted width="100%" height="106%">
+                <source src="../images/piso15.mp4" type="video/mp4">
+                </video>
+                <img src="../images/piso15.1.png" alt="Spiral Staircase">
+                <img src="../images/piso15.2.png" alt="Attic Bedroom">
+            </div>
+            <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
+        </div>
+        <div class="card-info">
+            <div class="price">900€</div>
+            <div class="location">Duplex Penthouse North</div>
+            <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">View Details</span>
+            <div class="features">
+                <span>2 Bed</span><span>75m²</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="property-card" data-zona="sur" data-precio="750" data-tipo="estudio">
+        <div class="marco-fotos">
+            <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+            <div class="galeria">
+                <img src="../images/piso16.png" alt="Unique Space">
+                <img src="../images/piso16.1.png" alt="Compact Kitchen">
+                <img src="../images/piso16.2.png" alt="Functional Bathroom">
+            </div>
+            <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
+        </div>
+        <div class="card-info">
+            <div class="price">750€</div>
+            <div class="location">Minimalist Studio</div>
+            <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">View Details</span>
+            <div class="features">
+                <span>1 Bed</span><span>45m²</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="property-card" data-zona="norte" data-precio="820" data-tipo="piso">
+        <div class="marco-fotos">
+            <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+            <div class="galeria">
+                <img src="../images/piso17.png" alt="Garage Space">
+                <img src="../images/piso17.1.png" alt="Cozy Living Room">
+                <img src="../images/piso17.2.png" alt="Equipped Kitchen">
+            </div>
+            <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
+        </div>
+        <div class="card-info">
+            <div class="price">820€</div>
+            <div class="location">Apartment with South Garage</div>
+            <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">View Details</span>
+            <div class="features">
+                <span>2 Bed</span><span>70m²</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="property-card" data-zona="norte" data-precio="2500" data-tipo="casa">
+        <div class="marco-fotos">
+            <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+            <div class="galeria">
+                <img src="../images/19.png" alt="Villa Exterior">
+                <img src="../images/19.1.png" alt="Infinity Pool">
+                <img src="../images/19.2.png" alt="Large Luxury Living Room">
+            </div>
+            <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
+        </div>
+        <div class="card-info">
+            <div class="price">2.500€</div>
+            <div class="location">Exclusive Villa</div>
+            <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">View Details</span>
+            <div class="features">
+                <span>5 Bed</span><span>300m²</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="property-card" data-zona="sur" data-precio="880" data-tipo="piso">
+        <div class="marco-fotos">
+            <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+            <div class="galeria">
+                <img src="../images/piso20.png" alt="Private Patio">
+                <img src="../images/piso20.1.png" alt="Living room with patio access">
+                <img src="../images/piso20.2.png" alt="Kitchen">
+            </div>
+            <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
+        </div>
+        <div class="card-info">
+            <div class="price">880€</div>
+            <div class="location">Ground Floor with Patio Center</div>
+            <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">View Details</span>
+            <div class="features">
+                <span>2 Bed</span><span>85m²</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="property-card" data-zona="sur" data-precio="980" data-tipo="piso">
+        <div class="marco-fotos">
+            <button class="btn-flotante izq" onclick="moverGaleria(event, this, -1)">❮</button>
+            <div class="galeria">
+                <img src="../images/piso21.png" alt="New Modern Kitchen">
+                <img src="../images/piso21.1.png" alt="Walk-in Shower Bathroom">
+                <img src="../images/piso21.2.png" alt="Bright Bedroom">
+            </div>
+            <button class="btn-flotante der" onclick="moverGaleria(event, this, 1)">❯</button>
+            <button class="btn-reservar" onclick="window.location.href='reserva.html'">
+                 Book Now
+            </button>
+        </div>
+        <div class="card-info">
+            <div class="price">980€</div>
+            <div class="location">Newly Renovated</div>
+            <span class="ver-detalles" onclick="openModal(this.closest('.property-card'))">View Details</span>
+            <div class="features">
+                <span>3 Bed</span><span>95m²</span>
+            </div>
+        </div>
+    </div>
+</main>
 
     <!-- Footer -->
     <footer>
