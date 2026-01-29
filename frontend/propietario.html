@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Propietario - Kasa</title>
+    <link rel="stylesheet" href="estilos/estilo-propietarios.css">
+</head>
+<body class="modo-propietario">
+    <div class="layout-grid">
+        <header class="header-panel">
+            <div class="logo-box">
+                <img src="images/prueba.png" alt="Logo">
+            </div>
+            <div class="main-title-pill propietario">
+                PANEL PROPIETARIO
+            </div>
+            <div class="header-right">
+                <span id="owner-name">Bienvenido, Propietario</span>
+                <button class="btn-prop btn-logout" onclick="cerrarSesion()">Cerrar Sesión</button>
+            </div>
+        </header>
+
+        <main id="owner-main">
+            <!-- Properties will be loaded here -->
+        </main>
+    </div>
+
+    <!-- Modal Añadir Propiedad -->
+    <div id="addPropertyModal" class="modal-fondo" style="display:none;">
+        <div class="modal-login-content" style="max-width: 600px; width: 90%;">
+            <a href="javascript:void(0)" class="cerrar" onclick="closeAddModal()">✕</a>
+            <h2 style="color: #2c3e50;">Añadir Nueva Propiedad</h2>
+            
+            <form id="addPropertyForm" onsubmit="saveNewProperty(event)">
+                <div class="form-section-title">Información Básica</div>
+                <input type="text" name="titulo" placeholder="Título (ej: Ático de lujo con vistas)" required>
+                <textarea name="descripcion" placeholder="Describe los detalles que hacen única a esta casa..." required rows="3"></textarea>
+                
+                <div class="modal-grid-2">
+                    <select name="ciudadId" id="modal-city" required></select>
+                    <select name="tipoPropiedadId" id="modal-type" required></select>
+                </div>
+
+                <div class="form-section-title">Ubicación y Precio</div>
+                <div class="modal-grid-2">
+                    <input type="text" name="zona" placeholder="Zona (ej: Centro, Gros...)" required>
+                    <input type="text" name="direccion" placeholder="Dirección completa" required>
+                </div>
+                <div class="modal-grid-2">
+                    <input type="number" name="precio" placeholder="Precio Mensual (€)" required>
+                    <input type="number" name="numeroPlanta" placeholder="Nº de Planta">
+                </div>
+
+                <div class="form-section-title">Características Técnicas</div>
+                <div class="modal-grid-2" style="grid-template-columns: 1fr 1fr 1fr;">
+                    <input type="number" name="areaM2" placeholder="Área (m²)" required>
+                    <input type="number" name="habitaciones" placeholder="Habs" required>
+                    <input type="number" name="banos" placeholder="Baños" required>
+                </div>
+
+                <div class="form-section-title">Comodidades y Extras</div>
+                <div class="checkbox-grid" id="services-container">
+                    <!-- Dynamic services loaded here -->
+                </div>
+
+                <div class="form-section-title">Galería de Imágenes (URLs)</div>
+                <div id="image-url-container">
+                    <div class="image-url-group" style="display: flex; gap: 5px; margin-bottom: 8px;">
+                        <input type="url" name="imageUrl" placeholder="Pegar URL de la imagen (ej: https://...)" style="flex: 1; margin: 0;">
+                        <button type="button" onclick="addImageField()" style="width: 40px; padding: 0; background: #28a745;">+</button>
+                    </div>
+                </div>
+
+                <button type="submit" style="background: #17a2b8;">Publicar Propiedad</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080/api';
+        let currentOwnerId = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const session = JSON.parse(localStorage.getItem('kasa_session'));
+            if (!session || session.type !== 'owner') {
+                window.location.href = 'web.html#login-owner';
+                return;
+            }
+            currentOwnerId = session.data.id;
+            if (session.data && session.data.nombre) {
+                document.getElementById('owner-name').innerText = "Bienvenido, " + session.data.nombre;
+            }
+            loadOwnerProperties();
+            loadFormData();
+        });
+
+        async function loadFormData() {
+            try {
+                const [citiesResp, typesResp, servicesResp] = await Promise.all([
+                    fetch(`${API_BASE}/lookup/cities`),
+                    fetch(`${API_BASE}/lookup/types`),
+                    fetch(`${API_BASE}/lookup/services`)
+                ]);
+                const cities = await citiesResp.json();
+                const types = await typesResp.json();
+                const services = await servicesResp.json();
+
+                const citySelect = document.getElementById('modal-city');
+                citySelect.innerHTML = '<option value="" disabled selected>Selecciona Ciudad</option>';
+                cities.forEach(c => {
+                    citySelect.innerHTML += `<option value="${c.id}">${c.nombre}</option>`;
+                });
+
+                const typeSelect = document.getElementById('modal-type');
+                typeSelect.innerHTML = '<option value="" disabled selected>Tipo de Casa</option>';
+                types.forEach(t => {
+                    typeSelect.innerHTML += `<option value="${t.id}">${t.nombre}</option>`;
+                });
+
+                const servicesContainer = document.getElementById('services-container');
+                servicesContainer.innerHTML = '';
+                services.forEach(s => {
+                    servicesContainer.innerHTML += `
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="serviceIds" value="${s.id}"> 
+                            ${s.nombre}
+                        </label>
+                    `;
+                });
+            } catch (err) {
+                console.error("Error cargando metadatos del formulario");
+            }
+        }
+
+        async function loadOwnerProperties() {
+            try {
+                const response = await fetch(`${API_BASE}/properties/owner/${currentOwnerId}`);
+                const properties = await response.json();
+                renderProperties(properties);
+            } catch (err) {
+                console.warn("Error cargando tus propiedades.");
+            }
+        }
+
+        function renderProperties(properties) {
+            const container = document.getElementById('owner-main');
+            container.innerHTML = '';
+            
+            properties.forEach(p => {
+                const div = document.createElement('div');
+                div.className = 'property-card';
+                div.id = `prop-${p.id}`;
+                
+                const imgSrc = p.imagenes && p.imagenes.length > 0 ? p.imagenes[0].urlImagen : 'images/piso21.png';
+
+                div.innerHTML = `
+                    <div class="marco-fotos">
+                        <img src="${imgSrc}" alt="${p.titulo}">
+                    </div>
+                    <div class="card-info">
+                        <div class="price">${p.precio}€</div>
+                        <div class="location">${p.titulo}</div>
+                        <div class="features"><span>${p.habitaciones} Hab</span><span>${p.areaM2}m²</span></div>
+                    </div>
+                    <div class="admin-controls">
+                        <button class="admin-btn btn-edit" onclick="alert('Funcionalidad de editar próximamente')">Editar</button>
+                        <button class="admin-btn btn-hide" onclick="toggleVisibility(${p.id})">Ocultar/Ver</button>
+                        <button class="admin-btn btn-delete" onclick="deleteProp(${p.id})">Eliminar</button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+
+            // Card de añadir siempre al final
+            const addCard = document.createElement('div');
+            addCard.className = 'property-card';
+            addCard.innerHTML = `
+                <div class="add-card-content" onclick="openAddModal()">
+                    + AÑADIR PROPIEDAD
+                </div>
+            `;
+            container.appendChild(addCard);
+        }
+
+        function openAddModal() {
+            document.getElementById('addPropertyModal').style.display = 'flex';
+        }
+
+        function closeAddModal() {
+            document.getElementById('addPropertyModal').style.display = 'none';
+        }
+
+        function addImageField() {
+            const container = document.getElementById('image-url-container');
+            const div = document.createElement('div');
+            div.className = 'image-url-group';
+            div.style.display = 'flex';
+            div.style.gap = '5px';
+            div.style.marginBottom = '8px';
+            div.innerHTML = `
+                <input type="url" name="imageUrl" placeholder="Pegar URL de la imagen..." style="flex: 1; margin: 0;">
+                <button type="button" onclick="this.parentElement.remove()" style="width: 40px; padding: 0; background: #dc3545;">-</button>
+            `;
+            container.appendChild(div);
+        }
+
+        async function saveNewProperty(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            
+            // Convert numbers
+            data.propietarioId = currentOwnerId;
+            data.precio = parseFloat(data.precio);
+            data.areaM2 = parseFloat(data.areaM2);
+            data.habitaciones = parseInt(data.habitaciones);
+            data.banos = parseInt(data.banos);
+            data.ciudadId = parseInt(data.ciudadId);
+            data.tipoPropiedadId = parseInt(data.tipoPropiedadId);
+            data.numeroPlanta = data.numeroPlanta ? parseInt(data.numeroPlanta) : 0;
+
+            // Convert checkboxes to booleans
+            data.tieneAscensor = false; // Deprecated by services list but kept for DB compatibility if needed
+            data.tieneParking = false;
+            data.tieneJardin = false;
+            data.tienePiscina = false;
+            data.estaAmueblado = false;
+
+            // Collect Service IDs
+            const selectedServices = Array.from(form.querySelectorAll('input[name="serviceIds"]:checked'))
+                .map(cb => parseInt(cb.value));
+            data.serviceIds = selectedServices;
+
+            // Collect images
+            const imageUrls = Array.from(form.querySelectorAll('input[name="imageUrl"]'))
+                .map(input => input.value.trim())
+                .filter(url => url !== "");
+            
+            data.imagenes = imageUrls.map((url, index) => ({
+                urlImagen: url,
+                esPrincipal: index === 0,
+                ordenVisualizacion: index
+            }));
+
+            try {
+                const resp = await fetch(`${API_BASE}/properties`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
+                if (resp.ok) {
+                    alert('¡Propiedad publicada con éxito!');
+                    closeAddModal();
+                    form.reset();
+                    loadOwnerProperties();
+                } else {
+                    alert('Error al publicar la propiedad.');
+                }
+            } catch (err) {
+                alert('Error de conexión con el servidor.');
+            }
+        }
+
+        function cerrarSesion() {
+            if (confirm("¿Seguro que quieres cerrar sesión?")) {
+                localStorage.removeItem('kasa_session');
+                window.location.href = 'web.html';
+            }
+        }
+
+        async function deleteProp(id) {
+            if (confirm("¿Seguro que quieres eliminar esta publicación?")) {
+                try {
+                    const resp = await fetch(`${API_BASE}/properties/${id}`, { method: 'DELETE' });
+                    if (resp.ok) {
+                        const element = document.getElementById(`prop-${id}`);
+                        if(element) element.remove();
+                    }
+                } catch (err) {
+                    alert("Error eliminando la propiedad");
+                }
+            }
+        }
+
+        function toggleVisibility(id) {
+            const el = document.getElementById(`prop-${id}`);
+            if (el.style.opacity === '0.5') {
+                el.style.opacity = '1';
+                alert('La propiedad ahora es pública.');
+            } else {
+                el.style.opacity = '0.5';
+                alert('La propiedad ahora es un borrador (Oculta).');
+            }
+        }
+    </script>
+</body>
+</html>

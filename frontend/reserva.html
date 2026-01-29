@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reservar - Inmobiliaria Kasa</title>
+    <link rel="stylesheet" href="estilos/estiloweb.css">
+    <link rel="stylesheet" href="estilos/estiloRESERVA.css">
+</head>
+
+<body>
+    <div class="booking-container">
+        <h1 style="color: #2c3e50; margin-bottom: 20px; text-align: center;">Confirmar Reserva</h1>
+        
+        <div id="property-preview" style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #eee; display: none;">
+            <h3 id="prop-title" style="margin: 0; color: #17a2b8;">Cargando propiedad...</h3>
+            <p id="prop-details" style="margin: 5px 0; font-size: 14px; color: #666;"></p>
+            <div id="prop-services" style="display:flex; flex-wrap:wrap; gap:5px; margin-top:10px;"></div>
+        </div>
+
+        <p style="text-align: center; margin-bottom: 30px; color: #666;">Completa tus datos para finalizar el alquiler.</p>
+
+        <form id="bookingForm" onsubmit="submitBooking(event)">
+            <div class="form-group">
+                <label>Nombre Completo</label>
+                <input type="text" id="user-name" required placeholder="Tu nombre">
+            </div>
+            <div class="form-group">
+                <label>Correo Electrónico</label>
+                <input type="email" id="user-email" required placeholder="email@ejemplo.com">
+            </div>
+            <div class="form-group">
+                <label>Fecha de entrada</label>
+                <input type="date" id="fecha-entrada" required>
+            </div>
+            <div class="form-group">
+                <label>Fecha de salida</label>
+                <input type="date" id="fecha-salida" required>
+            </div>
+
+            <button type="submit" class="btn-confirm">Pagar y Reservar</button>
+        </form>
+
+        <a href="web.html" class="back-link">← Volver al catálogo</a>
+    </div>
+
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
+
+    <script>
+        const API_BASE = 'http://localhost:8080/api';
+        const urlParams = new URLSearchParams(window.location.search);
+        const propId = urlParams.get('id');
+        let currentUserId = null;
+        let propertyPriceMonthly = 0;
+        
+        // Elementos del DOM
+        const inputEntrada = document.getElementById('fecha-entrada');
+        const inputSalida = document.getElementById('fecha-salida');
+        const btnSubmit = document.querySelector('.btn-confirm');
+        
+        // Agregar contenedor para el resumen del precio
+        const priceSummary = document.createElement('div');
+        priceSummary.style.marginTop = '20px';
+        priceSummary.style.padding = '15px';
+        priceSummary.style.background = '#e9f7ef';
+        priceSummary.style.borderRadius = '8px';
+        priceSummary.style.color = '#155724';
+        priceSummary.style.display = 'none';
+        document.getElementById('bookingForm').insertBefore(priceSummary, btnSubmit);
+
+        let bookedDates = [];
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (!propId) {
+                alert("No se ha seleccionado ninguna propiedad.");
+                window.location.href = 'web.html';
+                return;
+            }
+
+            const session = JSON.parse(localStorage.getItem('kasa_session'));
+            if (session && session.type === 'user') {
+                currentUserId = session.data.id;
+                document.getElementById('user-name').value = session.data.nombre || '';
+                document.getElementById('user-email').value = session.data.email || '';
+            }
+
+            try {
+                // 1. Cargar Propiedad
+                const resp = await fetch(`${API_BASE}/properties/${propId}`);
+                if (resp.ok) {
+                    const p = await resp.json();
+                    // Guardamos precio mensual para el cálculo
+                    propertyPriceMonthly = p.precio;
+                    
+                    document.getElementById('prop-title').innerText = p.titulo;
+                    // Mostramos precio mensual y el calculado por noche aprox
+                    const pricePerNight = (p.precio / 30).toFixed(2);
+                    document.getElementById('prop-details').innerText = `${p.precio}€/mes (~${pricePerNight}€/noche) - ${p.habitaciones} Hab - ${p.areaM2}m²`;
+                    
+                    const sContainer = document.getElementById('prop-services');
+                    sContainer.innerHTML = '';
+                    if (p.servicios && p.servicios.length > 0) {
+                        p.servicios.forEach(s => {
+                            sContainer.innerHTML += `
+                                <span style="background:#e9ecef; color:#495057; padding:2px 6px; border-radius:4px; font-size:12px;">
+                                    ${s.nombre}
+                                </span>
+                            `;
+                        });
+                    }
+                    document.getElementById('property-preview').style.display = 'block';
+
+                    // 2. Cargar Fechas Ocupadas
+                    await loadBookedDates(propId);
+                    
+                    // 3. Inicializar Flatpickr
+                    initCalendars();
+                }
+            } catch (err) {
+                console.warn("Error cargando datos:", err);
+            }
+        });
+
+        async function loadBookedDates(id) {
+            try {
+                const resp = await fetch(`${API_BASE}/bookings/property/${id}`);
+                if (resp.ok) {
+                    const bookings = await resp.json();
+                    // Filtramos solo las que no estén canceladas y convertimos a rangos
+                    bookedDates = bookings
+                        .filter(b => b.status !== 'CANCELADA')
+                        .map(b => ({
+                            from: b.checkIn,
+                            to: b.checkOut
+                        }));
+                }
+            } catch (e) {
+                console.log("No se pudieron cargar reservas existentes.");
+            }
+        }
+
+        function initCalendars() {
+            const commonConfig = {
+                locale: 'es',
+                dateFormat: "Y-m-d",
+                minDate: "today",
+                disable: bookedDates,
+                onChange: calculatePrice
+            };
+
+            flatpickr(inputEntrada, commonConfig);
+            flatpickr(inputSalida, commonConfig);
+        }
+
+        function calculatePrice() {
+            const startStr = inputEntrada.value;
+            const endStr = inputSalida.value;
+
+            if (!startStr || !endStr) {
+                priceSummary.style.display = 'none';
+                return;
+            }
+
+            const startDate = new Date(startStr);
+            const endDate = new Date(endStr);
+
+            if (endDate <= startDate) {
+                priceSummary.innerText = "La fecha de salida debe ser posterior a la de entrada.";
+                priceSummary.style.color = 'red';
+                priceSummary.style.display = 'block';
+                return;
+            }
+
+            // Cálculo de días
+            const diffTime = Math.abs(endDate - startDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+            
+            // Fórmula: (PrecioMensual / 30) * Noches
+            const pricePerNight = propertyPriceMonthly / 30;
+            const totalPrice = pricePerNight * diffDays;
+
+            priceSummary.innerHTML = `
+                <strong>Resumen del precio:</strong><br>
+                ${diffDays} noches x ${pricePerNight.toFixed(2)}€ <small>(base mensual / 30)</small><br>
+                <span style="font-size:1.2em; font-weight:bold;">Total: ${totalPrice.toFixed(2)}€</span>
+            `;
+            priceSummary.style.color = '#155724';
+            priceSummary.style.display = 'block';
+        }
+
+        async function submitBooking(event) {
+            event.preventDefault();
+            
+            if (!currentUserId) {
+                alert("Debes iniciar sesión para realizar una reserva.");
+                window.location.hash = '#login';
+                return;
+            }
+
+            const startStr = inputEntrada.value;
+            const endStr = inputSalida.value;
+
+            if(!startStr || !endStr) {
+                alert("Selecciona fechas válidas");
+                return;
+            }
+
+            // Recalcular precio final para enviar
+            const startDate = new Date(startStr);
+            const endDate = new Date(endStr);
+            const diffDays = Math.ceil(Math.abs(endDate - startDate) / (1000 * 60 * 60 * 24));
+            const total = (propertyPriceMonthly / 30) * diffDays;
+
+            const data = {
+                propiedadId: parseInt(propId),
+                usuarioId: currentUserId,
+                fechaEntrada: startStr,
+                fechaSalida: endStr,
+                precioTotal: parseFloat(total.toFixed(2)),
+                estado: 'PENDIENTE'
+            };
+
+            try {
+                const resp = await fetch(`${API_BASE}/bookings`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
+                
+                if (resp.ok) {
+                    alert('¡Reserva creada con éxito! El propietario se pondrá en contacto contigo.');
+                    window.location.href = 'user.html';
+                } else {
+                    const errPath = await resp.json();
+                    alert('Error: ' + (errPath.message || 'No se pudo crear la reserva.'));
+                }
+            } catch (err) {
+                alert('Error de conexión con el servidor.');
+            }
+        }
+    </script>
+</body>
+
+</html>
