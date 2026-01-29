@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database-config>
+    <connection>
+        <url>jdbc:mysql://localhost:3306/kasa_db</url>
+        <username>root</username>
+        <password></password>
+        <driver>com.mysql.cj.jdbc.Driver</driver>
+    </connection>
+    <pool>
+        <maxConnections>20</maxConnections>
+        <minConnections>5</minConnections>
+    </pool>
+    <jpa>
+        <showSql>true</showSql>
+        <ddlAuto>update</ddlAuto>
+        <dialect>org.hibernate.dialect.MySQLDialect</dialect>
+    </jpa>
+</database-config>
