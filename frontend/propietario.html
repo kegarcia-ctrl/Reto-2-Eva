@@ -22,7 +22,7 @@
         </header>
 
         <main id="owner-main">
-            <!-- Properties will be loaded here -->
+            <!-- Las propiedades se cargarán aquí -->
         </main>
     </div>
 
@@ -61,7 +61,7 @@
 
                 <div class="form-section-title">Comodidades y Extras</div>
                 <div class="checkbox-grid" id="services-container">
-                    <!-- Dynamic services loaded here -->
+                    <!-- Los servicios se cargarán aquí dinámicamente -->
                 </div>
 
                 <div class="form-section-title">Galería de Imágenes (URLs)</div>
@@ -211,7 +211,7 @@
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
             
-            // Convert numbers
+            // Convertir tipos de datos
             data.propietarioId = currentOwnerId;
             data.precio = parseFloat(data.precio);
             data.areaM2 = parseFloat(data.areaM2);
@@ -221,19 +221,19 @@
             data.tipoPropiedadId = parseInt(data.tipoPropiedadId);
             data.numeroPlanta = data.numeroPlanta ? parseInt(data.numeroPlanta) : 0;
 
-            // Convert checkboxes to booleans
-            data.tieneAscensor = false; // Deprecated by services list but kept for DB compatibility if needed
+            // Convertir comodidades obsoletas a false
+            data.tieneAscensor = false; // Obsoleto por la lista de servicios, pero mantenido para compatibilidad con la base de datos si es necesario
             data.tieneParking = false;
             data.tieneJardin = false;
             data.tienePiscina = false;
             data.estaAmueblado = false;
 
-            // Collect Service IDs
+            // Obtener servicios seleccionados
             const selectedServices = Array.from(form.querySelectorAll('input[name="serviceIds"]:checked'))
                 .map(cb => parseInt(cb.value));
             data.serviceIds = selectedServices;
 
-            // Collect images
+            // Obtener imágenes
             const imageUrls = Array.from(form.querySelectorAll('input[name="imageUrl"]'))
                 .map(input => input.value.trim())
                 .filter(url => url !== "");
